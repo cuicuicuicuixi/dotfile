@@ -8,7 +8,7 @@ command_timeout = 1000
 
 # Change the default prompt format
 format = """\
-[╭╴](238)$env_var$directory$git_branch$git_status$fill\
+[╭╴-](238)$env_var$username$directory$git_branch$git_status$fill\
 $all[╰─](238)$character"""
 
 # right_format = """$memory_usage"""
@@ -21,7 +21,7 @@ error_symbol = "[](238)"
 
 # Shows an icon that should be included by zshrc script based on the distribution or os
 [env_var.STARSHIP_DISTRO]
-format = '[$env_value](bold white)'
+format = '[$env_value](cyan)'
 variable = "STARSHIP_DISTRO"
 disabled = false
 
@@ -35,9 +35,9 @@ disabled = false
 
 # Shows the username
 [username]
-style_user = "bold white"
-style_root = "bold white"
-format = "[$user]($style) "
+style_user = "bold blue"
+# style_root = "white"
+format = "[${user}]($style) "
 disabled = false
 show_always = true
 
@@ -48,7 +48,7 @@ disabled = false
 
 [directory]
 truncation_length = 1
-truncation_symbol = "/"
+truncation_symbol = " /"
 home_symbol = " ~"
 style = "bold blue"
 read_only_style = "197"
@@ -63,9 +63,9 @@ truncation_symbol = "/"
 style = "bold purple"
 
 [git_status]
-format = '[\($all_status$ahead_behind\)]($style) '
+format = '[$all_status$ahead_behind]($style) '
 style = "bold purple"
-conflicted = "🏳"
+conflicted = "🏳 "
 up_to_date = " "
 untracked = " "
 ahead = "⇡${count}"
@@ -74,7 +74,7 @@ behind = "⇣${count}"
 stashed = " "
 modified = " "
 staged = '[++\($count\)](purple)'
-renamed = "襁 "
+renamed = "襁"
 deleted = " "
 
 [fill]
