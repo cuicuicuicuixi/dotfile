@@ -1,6 +1,6 @@
 # Load prompt config
 Invoke-Expression (&starship init powershell)
-$ENV:STARSHIP_DISTRO = "者 $env:username"
+$ENV:STARSHIP_DISTRO = "者"
 $ENV:STARSHIP_CONFIG = "D:\.dotfile\.config\starship.toml"
 
 # Icons
