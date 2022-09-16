@@ -8,7 +8,7 @@ command_timeout = 1000
 
 # Change the default prompt format
 format = """\
-[╭╴-](238)$env_var$username$directory$git_branch$git_status$fill\
+[╭╴-](238)$env_var$username$directory$git_branch$git_status$fill$status\
 $all[╰─](238)$character"""
 
 # right_format = """$memory_usage"""
@@ -44,6 +44,21 @@ show_always = true
 [hostname]
 ssh_only = true
 format = "on [$hostname](bold yellow) "
+disabled = false
+
+[localip]
+ssh_only = false
+format = "@[$localipv4](bold red) "
+disabled = false
+
+[status]
+style = "bold green"
+symbol = ""
+success_symbol = ""
+not_found_symbol = ""
+not_executable_symbol = ""
+format = '[$symbol]($style) '
+map_symbol = true
 disabled = false
 
 [directory]
