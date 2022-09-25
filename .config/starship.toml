@@ -21,7 +21,7 @@ error_symbol = "[](238)"
 
 # Shows an icon that should be included by zshrc script based on the distribution or os
 [env_var.STARSHIP_DISTRO]
-format = '[$env_value](cyan)'
+format = '[$env_value](bold blue) '
 variable = "STARSHIP_DISTRO"
 disabled = false
 
@@ -37,7 +37,7 @@ disabled = false
 [username]
 style_user = "bold blue"
 # style_root = "white"
-format = "[${user}]($style) "
+format = "[${user}]($style)[@](red)[arch]($style) "
 disabled = false
 show_always = true
 
@@ -48,7 +48,7 @@ disabled = false
 
 [localip]
 ssh_only = false
-format = "@[$localipv4](bold red) "
+format = "[@ $localipv4](bold italic red) "
 disabled = false
 
 [status]
@@ -65,10 +65,11 @@ disabled = false
 truncation_length = 1
 truncation_symbol = " /"
 home_symbol = " ~"
-style = "bold blue"
+# style = "bold blue"
+style = "bold cyan"
 read_only_style = "197"
 read_only = "  "
-format = "[ $path]($style)[$read_only]($read_only_style) "
+format = "on [$path]($style)[$read_only]($read_only_style) "
 
 [git_branch]
 symbol = " "
