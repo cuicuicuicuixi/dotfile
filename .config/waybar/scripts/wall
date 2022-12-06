@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Get random image file name
+IMG_NAME=$(ls ~/Wallpapers | shuf -n 1)
+# full path to that random image file
+IMG_PATH=~/Wallpapers/$IMG_NAME
+# Command to change wallpaper
+swww img $IMG_PATH -o DP-1 --transition-type any --transition-fps 60 --transition-step 16
+
+IMG_NAME=$(ls ~/Wallpapers | shuf -n 1)
+IMG_PATH=~/Wallpapers/$IMG_NAME
+swww img $IMG_PATH -o HDMI-A-1 --transition-type any --transition-fps 60 --transition-step 16

@@ -1,0 +1,2 @@
+#!/bin/sh
+wlogout -b 5 -T 400 -B 400
