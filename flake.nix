@@ -17,12 +17,6 @@
       configuration =
         { pkgs, ... }:
         {
-          system = {
-            primaryUser = "user";
-            configurationRevision = self.rev or self.dirtyRev or null;
-            stateVersion = 6;
-          };
-
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
 
@@ -36,9 +30,11 @@
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
-          ./homebrew.nix
+          ./setting.nix
           ./pkgs.nix
+          ./homebrew.nix
         ];
+        specialArgs = { inherit inputs self; };
       };
     };
 }
