@@ -8,5 +8,13 @@
     wget
     neovim
     typst
+
+    # nix
+    nixfmt
+    statix
+
+    # rust
+    rustc
+    cargo
   ];
 }

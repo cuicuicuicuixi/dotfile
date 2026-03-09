@@ -7,37 +7,38 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
-  let
-    configuration = { pkgs, ... }: {
-      system.primaryUser = "user";
+  outputs =
+    inputs@{
+      self,
+      nix-darwin,
+      nixpkgs,
+    }:
+    let
+      configuration =
+        { pkgs, ... }:
+        {
+          system = {
+            primaryUser = "user";
+            configurationRevision = self.rev or self.dirtyRev or null;
+            stateVersion = 6;
+          };
 
-      # Necessary for using flakes on this system.
-      nix.settings.experimental-features = "nix-command flakes";
+          # Necessary for using flakes on this system.
+          nix.settings.experimental-features = "nix-command flakes";
 
-      # Enable alternative shell support in nix-darwin.
-      # programs.fish.enable = true;
-
-      # Set Git commit hash for darwin-version.
-      system.configurationRevision = self.rev or self.dirtyRev or null;
-
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
-      system.stateVersion = 6;
-
-      # The platform the configuration will be used on.
-      nixpkgs.hostPlatform = "aarch64-darwin";
+          # The platform the configuration will be used on.
+          nixpkgs.hostPlatform = "aarch64-darwin";
+        };
+    in
+    {
+      # Build darwin flake using:
+      # $ darwin-rebuild build --flake .#MacBook-Pro
+      darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
+        modules = [
+          configuration
+          ./homebrew.nix
+          ./pkgs.nix
+        ];
+      };
     };
-  in
-  {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#MacBook-Pro
-    darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
-      modules = [ 
-        configuration
-        ./homebrew.nix
-	./pkgs.nix
-      ];
-    };
-  };
 }
