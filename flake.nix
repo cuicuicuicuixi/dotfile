@@ -33,6 +33,7 @@
           ./setting.nix
           ./pkgs.nix
           ./homebrew.nix
+          ./fonts.nix
         ];
         specialArgs = { inherit inputs self; };
       };

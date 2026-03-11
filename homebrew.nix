@@ -19,6 +19,7 @@
 
     # 要安装的 cask 图形化应用
     casks = [
+      "zed"
     ];
 
     # 可选：指定 Brewfile 路径（如果不使用上面的 brews/casks 声明）

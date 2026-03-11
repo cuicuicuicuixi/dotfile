@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, pkgs, ... }:
 {
   # touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
@@ -10,7 +10,7 @@
 
     defaults = {
       dock = {
-        autohide = true;
+        autohide = false;
         largesize = 110;
         tilesize = 45;
         magnification = true;
