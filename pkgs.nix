@@ -8,6 +8,8 @@
     wget
     neovim
     typst
+    just
+    fd
 
     # nix
     nixfmt
