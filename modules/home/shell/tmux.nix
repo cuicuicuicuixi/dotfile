@@ -29,11 +29,8 @@
       bind -r [ previous-window
       bind -r ] next-window
 
-      # ---- 分屏基础索引 ----
-      set -g pane-base-index 1
-
       # ---- 状态栏 ----
-      set -g status-position top
+      set -g status-position bottom
       set -g status-right-length "100"
       set -g status-left-length "100"
       set -g status-style bg=#141A1F,fg=#3D4F5C
