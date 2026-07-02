@@ -1,22 +1,26 @@
 # ---- 全局 ----
 add_newline = false
 command_timeout = 1000
-format = "$env_var$username[@](bold red)$hostname$directory$git_status$git_branch"
+format = "$env_var$username[@](bold #ea6962)$hostname$directory$git_status$git_branch"
+
+# ---- Gruvbox Material Dark 调色板 ----
+# 前景 #d4be98 | 灰 #928374  | 红 #ea6962 | 绿 #a9b665
+# 青 #89b482   | 蓝 #7daea3 | 紫 #d3869b | 黄 #d8a657
 
 # ---- 提示符字符 ----
 [character]
-success_symbol = "[](238)"
-error_symbol = "[](238)"
+success_symbol = "[](#928374)"
+error_symbol = "[](#928374)"
 
 # ---- 发行版图标（由 zshrc 注入 STARSHIP_DISTRO） ----
 [env_var.STARSHIP_DISTRO]
-format = '[$env_value](bold white)'
+format = '[$env_value](bold #d4be98)'
 variable = "STARSHIP_DISTRO"
 disabled = false
 
 # ---- 用户名 ----
 [username]
-style_user = "white"
+style_user = "#d4be98"
 format = "[${user}]($style)"
 disabled = false
 show_always = true
@@ -24,18 +28,18 @@ show_always = true
 # ---- 主机名 ----
 [hostname]
 ssh_only = false
-format = "[$hostname](white) "
+format = "[$hostname](#d4be98) "
 disabled = false
 
 # ---- 本地 IP ----
 [localip]
 ssh_only = true
-format = "[@ $localipv4](bold italic red) "
+format = "[@ $localipv4](bold italic #ea6962) "
 disabled = false
 
 # ---- 退出状态码 ----
 [status]
-style = "bold green"
+style = "bold #a9b665"
 symbol = ""
 success_symbol = ""
 not_found_symbol = ""
@@ -48,22 +52,29 @@ disabled = false
 [directory]
 truncation_length = 1
 home_symbol = "~"
-style = "bold cyan"
-read_only_style = "197"
+style = "bold #89b482"
+read_only_style = "#ea6962"
 read_only = "  "
-format = "[➜](bold green) [$path]($style)[$read_only]($read_only_style) "
+format = "[➜](bold #a9b665) [$path]($style)[$read_only]($read_only_style) "
 
 # ---- Git 分支 ----
 [git_branch]
 symbol = ""
-format = "[$symbol](yellow) [$branch]($style)[\\)](blue) "
+format = "[$symbol](#d8a657) [$branch]($style)[\\)](#7daea3) "
 truncation_symbol = "/"
-style = "purple"
+style = "#d3869b"
 
 # ---- Git 状态 ----
 [git_status]
-format = '[\(](blue)[$all_status$ahead_behind]($style)'
-style = "bold purple"
+format = '[\(](#7daea3)[$ahead_behind]($style)[$staged]($style)[$modified]($style)[$deleted]($style)[$renamed]($style)'
+style = "bold #d3869b"
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+staged = "+"
+modified = "✚"
+deleted = "✖"
+renamed = "➜"
 
 # ---- 填充 ----
 [fill]
@@ -74,10 +85,11 @@ symbol = " "
 format = " [$symbol($version(-$name) )]($style)"
 symbol = " "
 python_binary = "python3"
+style = "bold #a9b665"
 
 # ---- Node.js ----
 [nodejs]
-format = " [ $version](bold green) "
+format = " [ $version](bold #a9b665) "
 disabled = true
 
 # ---- C/C++ ----
@@ -86,9 +98,10 @@ format = " [$symbol($version(-$name) )]($style)"
 symbol = " "
 detect_extensions = ["c", "h", "cpp", "hpp"]
 detect_folders = ["src"]
-style = "bold blue"
+style = "bold #7daea3"
 
 # ---- Lua ----
 [lua]
 format = " [$symbol($version(-$name) )]($style)"
 symbol = " "
+style = "bold #89b482"
