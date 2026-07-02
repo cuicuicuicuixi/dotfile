@@ -36,12 +36,12 @@
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
-          ./setting.nix
-          ./pkgs.nix
-          ./homebrew.nix
-          ./fonts.nix
+          ./modules/darwin/system.nix
+          ./modules/darwin/pkgs.nix
+          ./modules/darwin/homebrew.nix
+          ./modules/darwin/fonts.nix
           home-manager.darwinModules.home-manager
-          ./home_manager.nix
+          ./modules/darwin/default.nix
         ];
         specialArgs = { inherit inputs self primaryUser; };
       };
