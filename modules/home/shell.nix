@@ -10,6 +10,7 @@
   xdg.configFile."ghostty/config".source = "${self}/dotfiles/ghostty";
   xdg.configFile."fastfetch/config.jsonc".source = "${self}/dotfiles/fastfetch/config.jsonc";
   xdg.configFile."fastfetch/startup.jsonc".source = "${self}/dotfiles/fastfetch/startup.jsonc";
+  xdg.configFile."wezterm/wezterm.lua".source = "${self}/dotfiles/wezterm.lua";
 
   programs.zsh = lib.mkMerge [
     {
