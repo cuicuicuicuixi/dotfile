@@ -1,7 +1,4 @@
-# --- 通过 zap 加载配置文件和插件 ---
-plug "$HOME/.config/zsh/zsh-aliases"
-plug "$HOME/.config/zsh/zsh-exports"
-
+# --- 通过 zap 加载插件 ---
 plug "zsh-users/zsh-history-substring-search"
 plug "esc/conda-zsh-completion"
 plug "zsh-users/zsh-autosuggestions"
