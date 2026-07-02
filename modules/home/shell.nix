@@ -4,10 +4,11 @@
   ...
 }:
 {
+  imports = [ ./ghostty.nix ];
+
   programs.zoxide.enable = true;
   programs.starship.enable = true;
   xdg.configFile."starship.toml".source = "${self}/dotfiles/starship.toml";
-  xdg.configFile."ghostty/config".source = "${self}/dotfiles/ghostty";
   xdg.configFile."fastfetch/config.jsonc".source = "${self}/dotfiles/fastfetch/config.jsonc";
   xdg.configFile."fastfetch/startup.jsonc".source = "${self}/dotfiles/fastfetch/startup.jsonc";
   xdg.configFile."wezterm/wezterm.lua".source = "${self}/dotfiles/wezterm.lua";
