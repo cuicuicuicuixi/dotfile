@@ -1,54 +1,39 @@
-# ~/.config/starship.toml
-
-# Inserts a blank line between shell prompts
+# ---- 全局 ----
 add_newline = false
-
-# Change command timeout from 500 to 1000 ms
 command_timeout = 1000
-
-# Change the default prompt format
 format = "$env_var$username[@](bold red)$hostname$directory$git_status$git_branch"
 
-# right_format = """$memory_usage"""
-
-# 
-# Change the default prompt characters
+# ---- 提示符字符 ----
 [character]
 success_symbol = "[](238)"
 error_symbol = "[](238)"
 
-# Shows an icon that should be included by zshrc script based on the distribution or os
+# ---- 发行版图标（由 zshrc 注入 STARSHIP_DISTRO） ----
 [env_var.STARSHIP_DISTRO]
 format = '[$env_value](bold white)'
 variable = "STARSHIP_DISTRO"
 disabled = false
 
-# Shows the memory usage
-# [memory_usage]
-# format = "$symbol [${ram}( | ${swap})]($style) "
-# disabled = false
-# threshold = -1
-# symbol = ""
-# style = "bold dimmed green"
-
-# Shows the username
+# ---- 用户名 ----
 [username]
 style_user = "white"
-# style_root = "white"
 format = "[${user}]($style)"
 disabled = false
 show_always = true
 
+# ---- 主机名 ----
 [hostname]
 ssh_only = false
 format = "[$hostname](white) "
 disabled = false
 
+# ---- 本地 IP ----
 [localip]
 ssh_only = true
 format = "[@ $localipv4](bold italic red) "
 disabled = false
 
+# ---- 退出状态码 ----
 [status]
 style = "bold green"
 symbol = ""
@@ -59,50 +44,43 @@ format = '[$symbol]($style) '
 map_symbol = true
 disabled = false
 
+# ---- 目录 ----
 [directory]
 truncation_length = 1
 home_symbol = "~"
-# style = "bold blue"
 style = "bold cyan"
 read_only_style = "197"
 read_only = "  "
 format = "[➜](bold green) [$path]($style)[$read_only]($read_only_style) "
 
+# ---- Git 分支 ----
 [git_branch]
 symbol = ""
 format = "[$symbol](yellow) [$branch]($style)[\\)](blue) "
-# truncation_length = 4
 truncation_symbol = "/"
 style = "purple"
 
+# ---- Git 状态 ----
 [git_status]
 format = '[\(](blue)[$all_status$ahead_behind]($style)'
 style = "bold purple"
-# conflicted = "🏳"
-# up_to_date = ""
-# untracked = ""
-# ahead = "⇡${count}"
-# diverged = "⇕⇡${ahead_count}⇣${behind_count}"
-# behind = "⇣${count}"
-# stashed = ""
-# modified = ""
-# # staged = '[++\($count\)](purple)'
-# renamed = "襁"
-# deleted = ""
 
+# ---- 填充 ----
 [fill]
 symbol = " "
 
-
+# ---- Python ----
 [python]
 format = " [$symbol($version(-$name) )]($style)"
 symbol = " "
 python_binary = "python3"
 
+# ---- Node.js ----
 [nodejs]
 format = " [ $version](bold green) "
 disabled = true
 
+# ---- C/C++ ----
 [c]
 format = " [$symbol($version(-$name) )]($style)"
 symbol = " "
@@ -110,6 +88,7 @@ detect_extensions = ["c", "h", "cpp", "hpp"]
 detect_folders = ["src"]
 style = "bold blue"
 
+# ---- Lua ----
 [lua]
 format = " [$symbol($version(-$name) )]($style)"
 symbol = " "
