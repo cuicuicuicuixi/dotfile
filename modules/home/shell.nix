@@ -5,8 +5,8 @@
 }:
 {
   imports = [
-    ./ghostty.nix
-    ./starship.nix
+    ./shell/ghostty.nix
+    ./shell/starship.nix
   ];
 
   programs.zoxide.enable = true;
