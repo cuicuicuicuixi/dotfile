@@ -1,9 +1,11 @@
 {
+  pkgs,
   ...
 }:
 {
   programs.ghostty = {
     enable = true;
+    package = pkgs.ghostty-bin;
     settings = {
       theme = "Gruvbox Material Dark";
       font-family = "MonacoLigaturized Nerd Font Mono";
