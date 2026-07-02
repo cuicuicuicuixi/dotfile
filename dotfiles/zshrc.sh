@@ -82,9 +82,6 @@ function off_proxy(){
     echo -e "\033[31m代理已关闭\033[0m"
 }
 
-# --- starship 提示符 ---
-eval "$(starship init zsh)"
-
 # --- conda（由 homebrew miniconda cask 提供） ---
 __conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then

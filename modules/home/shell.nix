@@ -5,6 +5,8 @@
 }:
 {
   programs.zoxide.enable = true;
+  programs.starship.enable = true;
+  xdg.configFile."starship.toml".source = "${self}/dotfiles/starship.toml";
 
   programs.zsh = lib.mkMerge [
     {

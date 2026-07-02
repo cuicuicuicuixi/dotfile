@@ -1,0 +1,115 @@
+# ~/.config/starship.toml
+
+# Inserts a blank line between shell prompts
+add_newline = false
+
+# Change command timeout from 500 to 1000 ms
+command_timeout = 1000
+
+# Change the default prompt format
+format = "$env_var$username[@](bold red)$hostname$directory$git_status$git_branch"
+
+# right_format = """$memory_usage"""
+
+# 
+# Change the default prompt characters
+[character]
+success_symbol = "[](238)"
+error_symbol = "[](238)"
+
+# Shows an icon that should be included by zshrc script based on the distribution or os
+[env_var.STARSHIP_DISTRO]
+format = '[$env_value](bold white)'
+variable = "STARSHIP_DISTRO"
+disabled = false
+
+# Shows the memory usage
+# [memory_usage]
+# format = "$symbol [${ram}( | ${swap})]($style) "
+# disabled = false
+# threshold = -1
+# symbol = ""
+# style = "bold dimmed green"
+
+# Shows the username
+[username]
+style_user = "white"
+# style_root = "white"
+format = "[${user}]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = "[$hostname](white) "
+disabled = false
+
+[localip]
+ssh_only = true
+format = "[@ $localipv4](bold italic red) "
+disabled = false
+
+[status]
+style = "bold green"
+symbol = ""
+success_symbol = ""
+not_found_symbol = ""
+not_executable_symbol = ""
+format = '[$symbol]($style) '
+map_symbol = true
+disabled = false
+
+[directory]
+truncation_length = 1
+home_symbol = "~"
+# style = "bold blue"
+style = "bold cyan"
+read_only_style = "197"
+read_only = "  "
+format = "[➜](bold green) [$path]($style)[$read_only]($read_only_style) "
+
+[git_branch]
+symbol = ""
+format = "[$symbol](yellow) [$branch]($style)[\\)](blue) "
+# truncation_length = 4
+truncation_symbol = "/"
+style = "purple"
+
+[git_status]
+format = '[\(](blue)[$all_status$ahead_behind]($style)'
+style = "bold purple"
+# conflicted = "🏳"
+# up_to_date = ""
+# untracked = ""
+# ahead = "⇡${count}"
+# diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+# behind = "⇣${count}"
+# stashed = ""
+# modified = ""
+# # staged = '[++\($count\)](purple)'
+# renamed = "襁"
+# deleted = ""
+
+[fill]
+symbol = " "
+
+
+[python]
+format = " [$symbol($version(-$name) )]($style)"
+symbol = " "
+python_binary = "python3"
+
+[nodejs]
+format = " [ $version](bold green) "
+disabled = true
+
+[c]
+format = " [$symbol($version(-$name) )]($style)"
+symbol = " "
+detect_extensions = ["c", "h", "cpp", "hpp"]
+detect_folders = ["src"]
+style = "bold blue"
+
+[lua]
+format = " [$symbol($version(-$name) )]($style)"
+symbol = " "
