@@ -3,7 +3,7 @@
   environment.systemPackages = with pkgs; [
     # ---- 编辑器 ----
     vim
-    neovim
+    # neovim 由 home-manager nixvim 管理
 
     # ---- 版本控制 ----
     git

@@ -8,6 +8,7 @@
     ./shell/ghostty.nix
     ./shell/starship.nix
     ./shell/tmux.nix
+    ./shell/lazyvim.nix
   ];
 
   programs.zoxide.enable = true;

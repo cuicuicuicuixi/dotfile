@@ -26,7 +26,9 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     users.${primaryUser} = {
-      imports = [ ../home ];
+      imports = [
+        ../home
+      ];
     };
     extraSpecialArgs = {
       inherit inputs self primaryUser;
