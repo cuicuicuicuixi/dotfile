@@ -97,5 +97,5 @@ unset __conda_setup
 
 # --- fastfetch ---
 if command -v fastfetch >/dev/null 2>&1; then
-    fastfetch --config /Users/user/.config/fastfetch/startup.jsonc
+    fastfetch --config "$HOME/.config/fastfetch/startup.jsonc"
 fi
