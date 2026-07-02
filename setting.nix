@@ -3,6 +3,14 @@
   # touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
   # system defaults and preferences
+  # 给 nix-daemon 注入代理环境变量
+  launchd.daemons.nix-daemon = {
+    serviceConfig.EnvironmentVariables = {
+      http_proxy = "http://127.0.0.1:7890";
+      https_proxy = "http://127.0.0.1:7890";
+    };
+  };
+
   system = {
     primaryUser = "user";
     configurationRevision = self.rev or self.dirtyRev or null;

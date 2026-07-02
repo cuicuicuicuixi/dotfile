@@ -5,6 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -12,8 +14,12 @@
       self,
       nix-darwin,
       nixpkgs,
+      home-manager,
+      ...
     }:
     let
+      primaryUser = "user";
+
       configuration =
         { pkgs, ... }:
         {
@@ -26,7 +32,7 @@
     in
     {
       # Build darwin flake using:
-      # $ darwin-rebuild build --flake .#MacBook-Pro
+      # $ darwin-rebuild switch --flake .#MacBook-Pro
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
@@ -34,8 +40,10 @@
           ./pkgs.nix
           ./homebrew.nix
           ./fonts.nix
+          home-manager.darwinModules.home-manager
+          ./home_manager.nix
         ];
-        specialArgs = { inherit inputs self; };
+        specialArgs = { inherit inputs self primaryUser; };
       };
     };
 }
