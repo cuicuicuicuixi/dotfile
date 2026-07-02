@@ -18,12 +18,31 @@
 
     # 要安装的 cask 图形化应用
     casks = [
-      "zed"
-      "feishu"
-      "google-chrome"
-      "microsoft-teams"
-      "dingtalk"
       "betterdisplay"
+      "cmake-app"
+      "dingtalk"
+      "docker-desktop"
+      "feishu"
+      "firefox@developer-edition"
+      "geekbench"
+      "ghostty"
+      "gimp"
+      "google-chrome"
+      "kitty"
+      "libreoffice"
+      "macs-fan-control"
+      "microsoft-remote-desktop"
+      "microsoft-teams"
+      "miniconda"
+      "mos"
+      "motrix"
+      "obs"
+      "obsidian"
+      "raycast"
+      "steam"
+      "sublime-text"
+      "wezterm"
+      "zed"
     ];
 
     # 可选：指定 Brewfile 路径（如果不使用上面的 brews/casks 声明）
