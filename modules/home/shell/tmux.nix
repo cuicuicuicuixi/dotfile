@@ -29,27 +29,27 @@
       bind -r [ previous-window
       bind -r ] next-window
 
-      # ---- 状态栏 ----
+      # ---- 状态栏（Gruvbox Material Dark） ----
       set -g status-position bottom
       set -g status-right-length "100"
       set -g status-left-length "100"
-      set -g status-style bg=#141A1F,fg=#3D4F5C
-      set -g window-status-style fg=#3D4F5C,bg=#141A1F
+      set -g status-style bg=#1d2021,fg=#928374
+      set -g window-status-style fg=#928374,bg=#1d2021
       setw -g window-status-separator " "
-      set -g window-status-current-style fg=colour198
+      set -g window-status-current-style fg=#d4be98
       set -g window-status-format "(#I) #W"
       set -g window-status-current-format "(#I) #W"
-      set -g status-left "#[fg=#0D0D0D,bg=#75BDF0] #S #[bg=#3D4F5C,fg=#75BDF0] #h #[bg=#141A1F] "
-      set -g status-right "#[bg=#3D4F5C,fg=#75BDF0] %H:%M #[fg=#0D0D0D,bg=#75BDF0] %A %d. %b %Y "
+      set -g status-left "#[fg=#1d2021,bg=#d3869b] #S #[bg=#504945,fg=#d3869b] #h #[bg=#1d2021] "
+      set -g status-right "#[bg=#504945,fg=#d3869b] %H:%M #[fg=#1d2021,bg=#d3869b] %A %d. %b %Y "
 
       # ---- 消息/模式样式 ----
-      set -g message-command-style fg=#FF007C
-      set -g message-style "fg=#FF007C, bg=#141A1F"
-      set -g mode-style "fg=#FF007C"
+      set -g message-command-style fg=#d3869b
+      set -g message-style "fg=#d3869b, bg=#1d2021"
+      set -g mode-style "fg=#d3869b"
 
       # ---- 分屏边框 ----
-      set -g pane-border-style "fg=#3D4F5C"
-      set -g pane-active-border-style "fg=#3D4F5C"
+      set -g pane-border-style "fg=#504945"
+      set -g pane-active-border-style "fg=#504945"
 
       # ---- UTF-8 ----
       set -q -g status-utf8 on
