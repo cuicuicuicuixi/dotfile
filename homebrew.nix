@@ -10,7 +10,6 @@
       # cleanup = "uninstall";
     };
 
-    caskArgs.no_quarantine = true;
     global.brewfile = true;
 
     # 要安装的 brew 命令行工具
@@ -24,6 +23,7 @@
       "google-chrome"
       "microsoft-teams"
       "dingtalk"
+      "betterdisplay"
     ];
 
     # 可选：指定 Brewfile 路径（如果不使用上面的 brews/casks 声明）
