@@ -7,6 +7,7 @@
   imports = [
     ./shell/ghostty.nix
     ./shell/starship.nix
+    ./shell/tmux.nix
   ];
 
   programs.zoxide.enable = true;
