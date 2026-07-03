@@ -20,6 +20,7 @@
     ./env.nix
     ./packages.nix
     ./fonts.nix
+    ./ssh.nix
   ];
 
   home = {
