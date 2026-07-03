@@ -20,7 +20,8 @@
         pkgs.ghostty;
     settings = {
       theme = "Gruvbox Material Dark";
-      font-family = "MonacoLigaturized Nerd Font Mono";
+      font-family = "MonacoLigaturized";
+      font-size = 14;
       mouse-scroll-multiplier = 0.5;
       window-padding-x = 2;
       window-padding-y = 2;
