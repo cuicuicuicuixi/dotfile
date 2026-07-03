@@ -29,8 +29,5 @@ in
       diff.colorMoved = "default";
       alias.bdiff = "!batdiff"; # git bdiff → 带语法高亮的 diff
     };
-    aliases = {
-      bdiff = "!batdiff"; # git bdiff → 带语法高亮的 diff
-    };
   };
 }
