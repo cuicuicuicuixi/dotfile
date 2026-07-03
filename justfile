@@ -54,17 +54,7 @@ install:
 
 # ---- 本地配置 ----
 config:
-    @echo "================================================"
-    @echo "  配置本地信息（local.nix）"
-    @echo "================================================"
-    @echo ""
-    @read -p "  Git 用户名: " GIT_NAME; \
-    read -p "  Git 邮箱: " GIT_EMAIL; \
-    read -p "  主用户名 [$(whoami)]: " PRIMARY_USER; \
-    PRIMARY_USER="$${PRIMARY_USER:-$(whoami)}"; \
-    printf '# 本地个人信息（不要提交到 git！）\n{\n  gitUserName = "%s";\n  gitUserEmail = "%s";\n  primaryUser = "%s";\n}\n' "$$GIT_NAME" "$$GIT_EMAIL" "$$PRIMARY_USER" > "{{flake_dir}}/modules/home/local.nix"
-    @echo ""
-    @echo "==> 配置已写入 modules/home/local.nix"
+    bash {{flake_dir}}/scripts/config.sh {{flake_dir}}
 
 # ---- 重建 ----
 switch mirror="":
