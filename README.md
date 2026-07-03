@@ -7,7 +7,7 @@
 - **多平台支持** — macOS（nix-darwin）、NixOS、其他 Linux（home-manager）统一管理
 - **声明式配置** — 所有系统设置、应用包、dotfiles 均以 Nix 声明
 - **模块化架构** — 系统管理 / 用户环境 / Shell 组件分层清晰
-- **一键安装** — `install.sh` 自动检测系统类型，生成本地配置并完成首次构建
+- **一键安装** — `just install` 自动检测系统类型，生成本地配置并完成首次构建
 
 ## 📁 目录结构
 
@@ -15,8 +15,9 @@
 .
 ├── flake.nix                 # Flake 入口（定义 darwinConfigurations / nixosConfigurations / homeConfigurations）
 ├── flake.lock                # 依赖版本锁定
-├── install.sh                # 一键安装/初始化脚本
-├── update_nix.sh             # 更新 nix-channel 脚本
+├── justfile                   # Just 命令（安装 / 重建 / 更新 / 清理）
+├── install.sh                # 一键安装脚本（已由 just install 替代）
+├── update_nix.sh             # 重建脚本（已由 just switch 替代）
 ├── check_defaults.sh         # macOS 系统配置检查脚本
 ├── dotfiles/                 # 手动管理的配置文件
 │   ├── wezterm.lua           # WezTerm 终端配置
@@ -60,31 +61,17 @@ git clone https://github.com/cuicuicuicuixi/dotfile.git ~/.config/nix
 cd ~/.config/nix
 git checkout nix-flake
 
-# 运行安装脚本（自动检测系统类型并构建）
-./install.sh
+# 一键安装（自动安装 Nix、生成本地配置、首次构建）
+just install
 ```
 
 ### 日常使用
 
-#### macOS
-
 ```bash
-sudo darwin-rebuild switch --flake ~/.config/nix#MacBook-Pro --impure
-```
-
-#### NixOS
-
-```bash
-# x86_64
-sudo nixos-rebuild switch --flake ~/.config/nix#nixos-x86 --impure
-# aarch64
-sudo nixos-rebuild switch --flake ~/.config/nix#nixos-arm --impure
-```
-
-#### 其他 Linux（独立 home-manager）
-
-```bash
-home-manager switch --flake ~/.config/nix#<用户名>@linux-x86 --impure
+just              # 重建系统（自动检测平台）
+just switch -m    # 使用国内镜像加速
+just update       # 更新 flake.lock 依赖
+just clean        # 清理 nix store 和旧世代
 ```
 
 ## 🛠 主要组件
@@ -103,7 +90,7 @@ home-manager switch --flake ~/.config/nix#<用户名>@linux-x86 --impure
 
 ## ⚙️ 本地配置
 
-首次运行 `install.sh` 时会提示输入 Git 用户名、邮箱等信息，自动生成 `modules/home/local.nix`。
+首次运行 `just install` 时会提示输入 Git 用户名、邮箱等信息，自动生成 `modules/home/local.nix`。
 
 该文件包含个人敏感信息，已通过 `.gitignore` 排除，不会推送到远程仓库。
 
