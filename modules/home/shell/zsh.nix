@@ -12,79 +12,74 @@
   ...
 }:
 lib.mkIf (config.my.shell == "zsh") {
-  programs.zsh = lib.mkMerge [
-    {
-      enable = true;
-      history = {
-        size = 1000000;
-        save = 1000000;
-        path = "$HOME/.zsh_history";
-        ignoreDups = true;
-        share = true;
-        extended = true; # 每条记录带时间戳
+  programs.zsh = {
+    enable = true;
+    history = {
+      size = 1000000;
+      save = 1000000;
+      path = "$HOME/.zsh_history";
+      ignoreDups = true;
+      share = true;
+      extended = true; # 每条记录带时间戳
+    };
+
+    # zsh 插件（原 zap 管理，现由 Nix 原生管理）
+    plugins = [
+      {
+        name = "zsh-autosuggestions";
+        src = pkgs.zsh-autosuggestions;
+        file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
+      }
+      {
+        name = "zsh-syntax-highlighting";
+        src = pkgs.zsh-syntax-highlighting;
+        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+      }
+      {
+        name = "zsh-history-substring-search";
+        src = pkgs.zsh-history-substring-search;
+        file = "share/zsh-history-substring-search/zsh-history-substring-search.zsh";
+      }
+      {
+        name = "zsh-autopair";
+        src = pkgs.zsh-autopair;
+        file = "share/zsh-autopair/autopair.zsh";
+      }
+      {
+        name = "fzf-tab";
+        src = pkgs.zsh-fzf-tab;
+        file = "share/fzf-tab/fzf-tab.zsh";
+      }
+    ];
+
+    # 补全增强：fzf-tab 交互界面 + fzf 模糊匹配引擎
+    completionInit = ''
+      # fzf-tab: Tab 后继续输入即可模糊筛选，方向键选择
+      zstyle ':fzf-tab:*' fzf-flags --height=50% --layout=reverse --border
+      zstyle ':fzf-tab:*' continuous-trigger '/'
+      zstyle ':completion:*' menu select=1
+      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*' 'l:|=* r:|=*'
+    '';
+
+    # 启动脚本（插件快捷键 + shellrc + zshrc）
+    initContent = ''
+      bindkey '^ ' autosuggest-accept
+      bindkey '^[[A' history-substring-search-up
+      bindkey '^[[B' history-substring-search-down
+      # fzf: Ctrl-T 模糊搜索文件 / Ctrl-R 搜索历史
+
+      ${builtins.readFile "${self}/dotfiles/shellrc.sh"}
+      ${builtins.readFile "${self}/dotfiles/zshrc.sh"}
+    '';
+
+    shellAliases =
+      import ./aliases.nix
+      // lib.optionalAttrs pkgs.stdenv.isDarwin {
+        # Homebrew 别名（仅 macOS）
+        bs = "brew search";
+        bi = "brew install";
+        bu = "brew uninstall";
+        bl = "brew list";
       };
-
-      # zsh 插件（原 zap 管理，现由 Nix 原生管理）
-      plugins = [
-        {
-          name = "zsh-autosuggestions";
-          src = pkgs.zsh-autosuggestions;
-          file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
-        }
-        {
-          name = "zsh-syntax-highlighting";
-          src = pkgs.zsh-syntax-highlighting;
-          file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
-        }
-        {
-          name = "zsh-history-substring-search";
-          src = pkgs.zsh-history-substring-search;
-          file = "share/zsh-history-substring-search/zsh-history-substring-search.zsh";
-        }
-        {
-          name = "zsh-autopair";
-          src = pkgs.zsh-autopair;
-          file = "share/zsh-autopair/autopair.zsh";
-        }
-        {
-          name = "fzf-tab";
-          src = pkgs.zsh-fzf-tab;
-          file = "share/fzf-tab/fzf-tab.zsh";
-        }
-      ];
-
-      # 补全增强：fzf-tab 交互界面 + fzf 模糊匹配引擎
-      completionInit = ''
-        # fzf-tab: Tab 后继续输入即可模糊筛选，方向键选择
-        zstyle ':fzf-tab:*' fzf-flags --height=50% --layout=reverse --border
-        zstyle ':fzf-tab:*' continuous-trigger '/'
-        zstyle ':completion:*' menu select=1
-        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*' 'l:|=* r:|=*'
-      '';
-
-      # 插件快捷键（zsh 专属）
-      initContent = ''
-        bindkey '^ ' autosuggest-accept
-        bindkey '^[[A' history-substring-search-up
-        bindkey '^[[B' history-substring-search-down
-        # fzf: Ctrl-T 模糊搜索文件 / Ctrl-R 搜索历史
-      '';
-
-      shellAliases =
-        import ./aliases.nix
-        // lib.optionalAttrs pkgs.stdenv.isDarwin {
-          # Homebrew 别名（仅 macOS）
-          bs = "brew search";
-          bi = "brew install";
-          bu = "brew uninstall";
-          bl = "brew list";
-        };
-    }
-    {
-      initContent = ''
-        ${builtins.readFile "${self}/dotfiles/shellrc.sh"}
-        ${builtins.readFile "${self}/dotfiles/zshrc.sh"}
-      '';
-    }
-  ];
+  };
 }

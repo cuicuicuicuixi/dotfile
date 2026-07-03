@@ -15,12 +15,11 @@
 .
 ├── flake.nix                 # Flake 入口（定义 darwinConfigurations / nixosConfigurations / homeConfigurations）
 ├── flake.lock                # 依赖版本锁定
-├── justfile                   # Just 命令（安装 / 配置 / 重建 / 更新 / 清理）
+├── justfile                   # Just 命令（安装 / 配置 / 重建 / 属性 / 更新 / 清理）
 ├── scripts/
-│   └── config.sh             # 本地配置交互脚本（由 just config 调用）
-├── install.sh                # 一键安装脚本（已由 just install 替代）
-├── update_nix.sh             # 重建脚本（已由 just switch 替代）
-├── check_defaults.sh         # macOS 系统配置检查脚本
+│   ├── config.sh             # 本地配置交互脚本（just config）
+│   ├── switch.sh             # 系统重建脚本（just switch）
+│   └── props.sh              # 系统属性查看脚本（just props）
 ├── dotfiles/                 # 手动管理的配置文件
 │   ├── wezterm.lua           # WezTerm 终端配置
 │   ├── zshrc.sh              # Zsh 初始化脚本

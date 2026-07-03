@@ -25,7 +25,7 @@
 
       username = {
         style_user = "#d4be98";
-        format = "[$\{user}]($style)";
+        format = "[$user]($style)";
         disabled = false;
         show_always = true;
       };

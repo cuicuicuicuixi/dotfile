@@ -62,7 +62,8 @@ switch mirror="":
 update:
     @echo "==> 更新 flake.lock..."
     cd {{flake_dir}} && nix flake update
-    @echo "==> 完成，请检查变更后 commit"
+    @echo "==> 完成。如 lock 文件有变更请提交："
+    @echo "    git add flake.lock && git commit -m 'chore: flake update'"
 
 # ---- 清理 ----
 clean:
