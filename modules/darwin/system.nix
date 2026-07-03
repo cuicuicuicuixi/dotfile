@@ -1,8 +1,17 @@
+# macOS 系统设置（nix-darwin 专属）
+# ================================
+# 仅包含 macOS 特有功能：
+#   - Touch ID sudo 认证
+#   - nix-daemon HTTP 代理注入
+#   - Dock / Finder / 触控板 / 截图等系统默认值
+#
+# 此模块在 Linux 上不可用。
+
 { self, pkgs, ... }:
 {
-  # touch ID for sudo
+  # Touch ID 用于 sudo 认证
   security.pam.services.sudo_local.touchIdAuth = true;
-  # system defaults and preferences
+
   # 给 nix-daemon 注入代理环境变量
   launchd.daemons.nix-daemon = {
     serviceConfig.EnvironmentVariables = {
@@ -27,7 +36,7 @@
         ShowPathbar = true; # 底部显示路径栏
         ShowStatusBar = false; # 底部显示状态栏（文件数/剩余空间）
         FXDefaultSearchScope = "SCcf"; # 搜索默认当前文件夹
-        _FXShowPosixPathInTitle = false; # 标题栏显示 POSI 完整路径
+        _FXShowPosixPathInTitle = false; # 标题栏显示 POSIX 完整路径
       };
       NSGlobalDomain = {
         ApplePressAndHoldEnabled = false; # 禁用长按弹出重音符（写代码必关）

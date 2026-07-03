@@ -1,5 +1,19 @@
+# 多系统 nix flake（macOS + Linux）
+# ================================
+#
+# 架构：
+#   modules/darwin/   — macOS 系统级配置（nix-darwin）
+#   modules/nixos/    — NixOS 系统级配置
+#   modules/home/     — 跨平台 home-manager 配置（所有系统共享）
+#
+# 使用方式：
+#   macOS:           darwin-rebuild switch --flake .#MacBook-Pro
+#   NixOS (x86_64):  nixos-rebuild  switch --flake .#nixos-x86
+#   NixOS (arm64):   nixos-rebuild  switch --flake .#nixos-arm
+#   其他 Linux:       home-manager  switch --flake .#user@linux-x86
+
 {
-  description = "My nix-darwin system flake";
+  description = "My multi-system nix flake (macOS + Linux)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -22,30 +36,80 @@
     let
       primaryUser = "user";
 
-      configuration =
+      # 所有系统共享的 nix 基础配置（flakes 开关 + unfree 白名单）
+      baseNixConfig =
         { pkgs, ... }:
         {
-          # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
-
-          # The platform the configuration will be used on.
-          nixpkgs.hostPlatform = "aarch64-darwin";
+          nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+            "claude-code"
+          ];
         };
     in
     {
-      # Build darwin flake using:
-      # $ darwin-rebuild switch --flake .#MacBook-Pro
+      # ==========================================================
+      # macOS — nix-darwin（系统级管理：defaults、PAM、homebrew）
+      # ==========================================================
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
         modules = [
-          configuration
-          ./modules/darwin/system.nix
-          ./modules/darwin/pkgs.nix
-          ./modules/darwin/homebrew.nix
-          ./modules/darwin/fonts.nix
+          baseNixConfig
+          ./modules/darwin # macOS 系统模块（system + homebrew + home-manager 集成）
           home-manager.darwinModules.home-manager
-          ./modules/darwin/default.nix
         ];
-        specialArgs = { inherit inputs self primaryUser; };
+        specialArgs = {
+          inherit inputs self primaryUser;
+        };
+      };
+
+      # ==========================================================
+      # NixOS x86_64 — 系统级管理（boot、systemd、locale 等）
+      # ==========================================================
+      nixosConfigurations."nixos-x86" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          baseNixConfig
+          ./modules/nixos # NixOS 系统模块 + home-manager 集成
+          home-manager.nixosModules.home-manager
+        ];
+        specialArgs = {
+          inherit inputs self primaryUser;
+        };
+      };
+
+      # ==========================================================
+      # NixOS aarch64
+      # ==========================================================
+      nixosConfigurations."nixos-arm" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          baseNixConfig
+          ./modules/nixos
+          home-manager.nixosModules.home-manager
+        ];
+        specialArgs = {
+          inherit inputs self primaryUser;
+        };
+      };
+
+      # ==========================================================
+      # 独立 home-manager — 非 NixOS Linux（仅用户级配置）
+      # 适用场景：Ubuntu/Arch/Fedora 等发行版，Nix 仅作为包管理器
+      # ==========================================================
+      homeConfigurations."user@linux-x86" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [ ./modules/home ]; # 仅用户级配置，无系统管理
+        extraSpecialArgs = {
+          inherit inputs self primaryUser;
+        };
+      };
+
+      homeConfigurations."user@linux-arm" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-linux;
+        modules = [ ./modules/home ];
+        extraSpecialArgs = {
+          inherit inputs self primaryUser;
+        };
       };
     };
 }
