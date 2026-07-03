@@ -40,7 +40,8 @@
         ├── packages.nix      # 命令行工具包
         ├── env.nix           # 环境变量
         ├── fonts.nix         # 字体配置
-        ├── git.nix           # Git 配置
+        ├── git.nix           # Git 配置 + 全局 gitignore
+        ├── ssh.nix           # SSH 客户端（多服务器统一配置）
         ├── shell.nix         # Shell 入口（Zsh/Bash + 公共工具）
         └── shell/            # Shell 子模块
             ├── zsh.nix       # Zsh 配置
@@ -82,12 +83,14 @@ just clean        # 清理 nix store 和旧世代
 |------|------|
 | **Shell** | Zsh / Bash + Starship + Zoxide + Fzf |
 | **终端** | WezTerm / Ghostty |
-| **编辑器** | Neovim (LazyVim via nixvim) |
-| **Git** | Git + LazyGit + Delta (diff 美化) |
-| **工作流** | Tmux + Direnv + Just |
+| **编辑器** | Neovim (LazyVim via nixvim)，EDITOR/VISUAL 统一设为 nvim |
+| **Git** | Git + LazyGit + Delta (diff 美化) + 全局 gitignore |
+| **SSH** | 多服务器统一客户端配置（settings API） |
+| **工作流** | Tmux + Direnv + Just + bat-extras (batman/batdiff/batgrep) |
 | **语言** | Rust (rustc + cargo)、Node.js (fnm) |
 | **AI** | Claude Code |
 | **字体** | 多字体配置（见 `modules/home/fonts.nix`） |
+| **系统** | nix gc 自动清理 7 天前旧世代 |
 | **工具** | htop/btop、ripgrep/fd/bat/eza、difftastic、typst 等 |
 
 ## ⚙️ 本地配置
