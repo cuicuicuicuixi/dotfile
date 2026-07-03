@@ -73,5 +73,6 @@ in
     # ---- CJK 字体（Linux 主力，macOS 作为系统字体补充） ----
     source-han-sans             # 思源黑体
     source-han-serif            # 思源宋体
+    fontconfig                  # fc-list / fc-match 调试字体
   ];
 }
