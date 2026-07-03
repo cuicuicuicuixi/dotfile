@@ -47,22 +47,26 @@ lib.mkIf (config.my.shell == "zsh") {
         }
       ];
 
-      # 插件快捷键
+      # 插件快捷键（zsh 专属）
       initContent = ''
         bindkey '^ ' autosuggest-accept
         bindkey '^[[A' history-substring-search-up
         bindkey '^[[B' history-substring-search-down
       '';
 
-      shellAliases = import ./aliases.nix;
+      shellAliases =
+        import ./aliases.nix
+        // lib.optionalAttrs pkgs.stdenv.isDarwin {
+          # Homebrew 别名（仅 macOS）
+          bs = "brew search";
+          bi = "brew install";
+          bu = "brew uninstall";
+          bl = "brew list";
+        };
     }
     {
       initContent = ''
-        eval "$(fnm env)"
-      '';
-    }
-    {
-      initContent = ''
+        ${builtins.readFile "${self}/dotfiles/shellrc.sh"}
         ${builtins.readFile "${self}/dotfiles/zshrc.sh"}
       '';
     }

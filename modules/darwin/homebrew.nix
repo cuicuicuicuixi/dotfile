@@ -1,13 +1,5 @@
 { ... }:
 {
-  # Homebrew 别名（仅 macOS，归入 homebrew 模块）
-  programs.zsh.shellAliases = {
-    bs = "brew search";
-    bi = "brew install";
-    bu = "brew uninstall";
-    bl = "brew list";
-  };
-
   homebrew = {
     enable = true;
 
