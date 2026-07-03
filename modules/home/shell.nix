@@ -27,6 +27,7 @@ in
     ./shell/starship.nix
     ./shell/tmux.nix
     ./shell/lazyvim.nix
+    ./shell/kitty.nix
     ./shell/zsh.nix
     ./shell/bash.nix
   ];
