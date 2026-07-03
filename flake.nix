@@ -16,11 +16,18 @@
   description = "My multi-system nix flake (macOS + Linux)";
 
   inputs = {
+    # 主包仓库（rolling release，所有平台统一使用同一个 nixpkgs 实例）
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
+    # macOS 系统管理（system.defaults / PAM / launchd / homebrew）
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    # 跨平台用户环境管理（dotfiles / 用户级包），作为 nix-darwin 或 NixOS 的子模块运行
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Neovim 发行版打包（LazyVim 集成）
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
