@@ -27,6 +27,7 @@ in
       delta.features = "line-numbers decorations";
       merge.conflictstyle = "diff3";
       diff.colorMoved = "default";
+      alias.bdiff = "!batdiff"; # git bdiff → 带语法高亮的 diff
     };
     aliases = {
       bdiff = "!batdiff"; # git bdiff → 带语法高亮的 diff
