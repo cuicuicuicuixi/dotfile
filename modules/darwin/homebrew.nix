@@ -17,7 +17,7 @@
       "betterdisplay"
       "cmake-app"
       "dingtalk"
-      "docker-desktop"
+
       "feishu"
       "firefox@developer-edition"
       "geekbench"
