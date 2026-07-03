@@ -22,6 +22,8 @@ let
     "/System/Library/Fonts/Supplemental"
     "/Library/Fonts"
     "${homeDir}/Library/Fonts"
+    # PingFang（苹方）在 macOS Font Asset 目录下，非标准路径
+    "/System/Library/AssetsV2/com_apple_MobileAsset_Font8"
   ];
 in
 {
@@ -35,7 +37,7 @@ in
         "MonacoLigaturized"              # 用户自定义 Monaco（Nerd Font + 连体）
         "JetBrainsMono Nerd Font Mono"   # 现代编程字体（nixpkgs）
         "FiraCode Nerd Font Mono"        # 含编程连体（nixpkgs）
-        "MesloLG Nerd Font Mono"         # Menlo 衍生，Apple 系（nixpkgs）
+        "MesloLGS Nerd Font Mono"         # Menlo 衍生，Apple 系（nixpkgs）
         "PingFang SC"                    # 苹方（macOS 系统字体）
         "Source Han Sans SC"             # 思源黑体（Linux CJK）
       ];
