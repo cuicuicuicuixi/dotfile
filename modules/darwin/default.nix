@@ -9,7 +9,6 @@
 # 已迁入 ../home/，此模块仅保留 macOS 专有设置。
 
 {
-  lib,
   pkgs,
   inputs,
   self,

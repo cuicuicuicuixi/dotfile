@@ -8,7 +8,7 @@
 # 所有包均由 nixpkgs 按 hostPlatform 自动选择对应架构/平台版本，
 # 无需手动平台条件。
 
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [
     # ---- 编辑器 ----

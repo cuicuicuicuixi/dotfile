@@ -7,7 +7,7 @@
 #
 # 此模块在 Linux 上不可用。
 
-{ self, pkgs, ... }:
+{ self, ... }:
 {
   # Touch ID 用于 sudo 认证
   security.pam.services.sudo_local.touchIdAuth = true;

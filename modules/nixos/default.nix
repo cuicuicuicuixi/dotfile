@@ -8,7 +8,6 @@
 # 与 darwin/default.nix 角色对称，共享同一套 ../home/ 用户配置。
 
 {
-  lib,
   pkgs,
   inputs,
   self,

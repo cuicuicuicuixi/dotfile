@@ -9,7 +9,7 @@
 # 注意：fileSystems 和 boot.loader 配置是占位默认值，
 # 不同机器的磁盘布局不同，安装时需要按实际情况调整。
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   # flakes 支持
   nix.settings.experimental-features = "nix-command flakes";
