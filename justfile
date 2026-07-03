@@ -6,7 +6,8 @@
 #   just config      重新填写本地配置（local.nix）
 #   just             默认：检测系统并执行 rebuild
 #   just switch -m   使用国内镜像加速
-#   just props       查看系统配置属性（替代 check_defaults.sh）
+#   just props       查看系统配置属性
+#   just verify       验证 flake 配置（构建前建议先跑）
 #   just update      更新 flake.lock
 #   just clean       清理构建缓存
 # ==========================================================
@@ -53,6 +54,12 @@ config:
 # ---- 系统属性 ----
 props:
     bash {{flake_dir}}/scripts/props.sh
+
+# ---- 配置验证 ----
+verify:
+    @echo "==> 验证 flake 配置..."
+    cd {{flake_dir}} && nix flake check
+    @echo "==> 验证通过"
 
 # ---- 重建 ----
 switch mirror="":
