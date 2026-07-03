@@ -10,7 +10,7 @@
 #   macOS:           darwin-rebuild switch --flake .#MacBook-Pro
 #   NixOS (x86_64):  nixos-rebuild  switch --flake .#nixos-x86
 #   NixOS (arm64):   nixos-rebuild  switch --flake .#nixos-arm
-#   其他 Linux:       home-manager  switch --flake .#user@linux-x86
+#   其他 Linux:       home-manager  switch --flake .#\<user\>@linux-x86
 
 {
   description = "My multi-system nix flake (macOS + Linux)";
@@ -41,7 +41,13 @@
       ...
     }:
     let
-      primaryUser = "user";
+      # 从 gitignored local.nix 读取用户信息，不存在则用占位值
+      localConfig =
+        if builtins.pathExists ./modules/home/local.nix then
+          import ./modules/home/local.nix
+        else
+          { primaryUser = "user"; };
+      primaryUser = localConfig.primaryUser;
 
       # 所有系统共享的 nix 基础配置（flakes 开关 + unfree 白名单）
       baseNixConfig =
@@ -103,7 +109,7 @@
       # 独立 home-manager — 非 NixOS Linux（仅用户级配置）
       # 适用场景：Ubuntu/Arch/Fedora 等发行版，Nix 仅作为包管理器
       # ==========================================================
-      homeConfigurations."user@linux-x86" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."${primaryUser}@linux-x86" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./modules/home ]; # 仅用户级配置，无系统管理
         extraSpecialArgs = {
@@ -111,7 +117,7 @@
         };
       };
 
-      homeConfigurations."user@linux-arm" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."${primaryUser}@linux-arm" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-linux;
         modules = [ ./modules/home ];
         extraSpecialArgs = {

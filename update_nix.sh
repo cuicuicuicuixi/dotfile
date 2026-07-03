@@ -51,7 +51,7 @@ case "$(uname -s)" in
       sudo nixos-rebuild switch --flake "$FLAKE_DIR#$HOST" "${EXTRA_ARGS[@]}"
     else
       # 非 NixOS Linux，使用独立 home-manager
-      [ "$ARCH" = "x86_64" ] && HOST="user@linux-x86" || HOST="user@linux-arm"
+      [ "$ARCH" = "x86_64" ] && HOST="${USER}@linux-x86" || HOST="${USER}@linux-arm"
       echo "==> Linux 非 NixOS ($ARCH) 检测到，使用 home-manager"
       home-manager switch --flake "$FLAKE_DIR#$HOST" "${EXTRA_ARGS[@]}"
     fi

@@ -7,7 +7,7 @@
 #
 # 此模块在 Linux 上不可用。
 
-{ self, ... }:
+{ self, primaryUser, ... }:
 {
   # Touch ID 用于 sudo 认证
   security.pam.services.sudo_local.touchIdAuth = true;
@@ -21,7 +21,7 @@
   };
 
   system = {
-    primaryUser = "user";
+    primaryUser = primaryUser;
     configurationRevision = self.rev or self.dirtyRev or null;
     stateVersion = 6;
 
