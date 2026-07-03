@@ -49,6 +49,9 @@
         else
           "user";
 
+      # 共享配置（单一定义，多模块引用）
+      proxyAddr = "http://127.0.0.1:7890";
+
       # 所有系统共享的 nix 基础配置（flakes 开关 + unfree 白名单）
       baseNixConfig =
         { pkgs, ... }:
@@ -71,7 +74,7 @@
           home-manager.darwinModules.home-manager
         ];
         specialArgs = {
-          inherit inputs self primaryUser;
+          inherit inputs self primaryUser proxyAddr;
         };
       };
 
@@ -86,7 +89,7 @@
           home-manager.nixosModules.home-manager
         ];
         specialArgs = {
-          inherit inputs self primaryUser;
+          inherit inputs self primaryUser proxyAddr;
         };
       };
 
@@ -101,7 +104,7 @@
           home-manager.nixosModules.home-manager
         ];
         specialArgs = {
-          inherit inputs self primaryUser;
+          inherit inputs self primaryUser proxyAddr;
         };
       };
 
@@ -113,7 +116,7 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./modules/home ]; # 仅用户级配置，无系统管理
         extraSpecialArgs = {
-          inherit inputs self primaryUser;
+          inherit inputs self primaryUser proxyAddr;
         };
       };
 
@@ -121,7 +124,7 @@
         pkgs = nixpkgs.legacyPackages.aarch64-linux;
         modules = [ ./modules/home ];
         extraSpecialArgs = {
-          inherit inputs self primaryUser;
+          inherit inputs self primaryUser proxyAddr;
         };
       };
     };

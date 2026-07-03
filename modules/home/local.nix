@@ -1,5 +1,6 @@
+# 本地个人信息（不要提交到 git！）
 {
-  gitUserName = "Your Name";
-  gitUserEmail = "your@email.com";
-  primaryUser = "your-username";
+  gitUserName = "cuicuicuicuixi";
+  gitUserEmail = "849343517@qq.com";
+  primaryUser = "zhangweifeng";
 }
