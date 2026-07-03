@@ -15,7 +15,9 @@
 .
 ├── flake.nix                 # Flake 入口（定义 darwinConfigurations / nixosConfigurations / homeConfigurations）
 ├── flake.lock                # 依赖版本锁定
-├── justfile                   # Just 命令（安装 / 重建 / 更新 / 清理）
+├── justfile                   # Just 命令（安装 / 配置 / 重建 / 更新 / 清理）
+├── scripts/
+│   └── config.sh             # 本地配置交互脚本（由 just config 调用）
 ├── install.sh                # 一键安装脚本（已由 just install 替代）
 ├── update_nix.sh             # 重建脚本（已由 just switch 替代）
 ├── check_defaults.sh         # macOS 系统配置检查脚本
@@ -69,6 +71,7 @@ just install
 
 ```bash
 just              # 重建系统（自动检测平台）
+just config       # 重新填写本地配置（Git 用户名/邮箱等）
 just switch -m    # 使用国内镜像加速
 just update       # 更新 flake.lock 依赖
 just clean        # 清理 nix store 和旧世代
@@ -90,19 +93,15 @@ just clean        # 清理 nix store 和旧世代
 
 ## ⚙️ 本地配置
 
-首次运行 `just install` 时会提示输入 Git 用户名、邮箱等信息，自动生成 `modules/home/local.nix`。
+仓库中 `modules/home/local.nix` 是占位文件。首次使用时运行：
 
-该文件包含个人敏感信息，已通过 `.gitignore` 排除，不会推送到远程仓库。
-
-如需手动创建：
-
-```nix
-{
-  gitUserName = "Your Name";
-  gitUserEmail = "your.email@example.com";
-  primaryUser = "your-username";
-}
+```bash
+just config
 ```
+
+按提示输入 Git 用户名、邮箱和系统用户名，会自动写入 `local.nix`。
+
+> 该文件包含个人信息，注意不要 `git add` 提交到仓库。仓库中保留占位版本。如需重置为占位值：`git checkout modules/home/local.nix`
 
 ## 📝 参考
 
