@@ -2,7 +2,8 @@
 # Nix Flake 构建命令
 # ==========================================================
 # 用法：
-#   just install     首次安装（安装 Nix + 生成本地配置 + 构建）
+#   just install     首次安装（安装 Nix + 配置 + 构建）
+#   just config      重新填写本地配置（local.nix）
 #   just             默认：检测系统并执行 rebuild
 #   just switch -m   使用国内镜像加速
 #   just update      更新 flake.lock
@@ -42,19 +43,7 @@ install:
     # 2. 创建 local.nix
     @if [ ! -f "{{flake_dir}}/modules/home/local.nix" ]; then \
         echo ""; \
-        echo "==> 配置本地信息 ---"; \
-        read -p "  Git 用户名: " GIT_NAME; \
-        read -p "  Git 邮箱: " GIT_EMAIL; \
-        read -p "  主用户名 [$(whoami)]: " PRIMARY_USER; \
-        PRIMARY_USER="$${PRIMARY_USER:-$(whoami)}"; \
-        cat > "{{flake_dir}}/modules/home/local.nix" << NIXEOF; \
-    { \
-      gitUserName = "$$GIT_NAME"; \
-      gitUserEmail = "$$GIT_EMAIL"; \
-      primaryUser = "$$PRIMARY_USER"; \
-    } \
-    NIXEOF \
-        echo "==> local.nix 已创建"; \
+        just config; \
     else \
         echo "==> local.nix 已存在，跳过"; \
     fi
@@ -62,6 +51,10 @@ install:
     @echo ""
     @echo "==> 开始首次构建..."
     @just switch
+
+# ---- 本地配置 ----
+config:
+    bash {{flake_dir}}/scripts/config.sh {{flake_dir}}
 
 # ---- 重建 ----
 switch mirror="":
