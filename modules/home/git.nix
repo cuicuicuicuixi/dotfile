@@ -1,10 +1,16 @@
+let
+  # 从 gitignored local.nix 读取个人信息，不存在则用空值兜底
+  localFile = ./local.nix;
+  localConfig =
+    if builtins.pathExists localFile then import localFile else { gitUserName = ""; gitUserEmail = ""; };
+in
 {
   programs.git = {
     enable = true;
     settings = {
       user = {
-        name = "cuicuicuicuixi";
-        email = "849343517@qq.com";
+        name = localConfig.gitUserName;
+        email = localConfig.gitUserEmail;
       };
       init.defaultBranch = "main";
       core.editor = "nvim";
