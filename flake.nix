@@ -41,7 +41,13 @@
       ...
     }:
     let
-      primaryUser = "zhangweifeng";
+      # 从 local.nix 读取（git tracked + assume-unchanged 保护本地修改）
+      primaryUser =
+        let localFile = ./modules/home/local.nix;
+        in if builtins.pathExists localFile then
+          (import localFile).primaryUser
+        else
+          "user";
 
       # 所有系统共享的 nix 基础配置（flakes 开关 + unfree 白名单）
       baseNixConfig =

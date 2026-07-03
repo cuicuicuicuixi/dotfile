@@ -1,5 +1,5 @@
 let
-  # 从 gitignored local.nix 读取个人信息，不存在则用空值兜底
+  # 从 local.nix 读取（git tracked + assume-unchanged 保护本地修改）
   localFile = ./local.nix;
   localConfig =
     if builtins.pathExists localFile then import localFile else { gitUserName = ""; gitUserEmail = ""; };
