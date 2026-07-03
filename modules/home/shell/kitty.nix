@@ -22,6 +22,9 @@
       # ---- 光标 ----
       cursor_shape = "beam";
       cursor_blink_interval = "0.5";
+      cursor_trail = 1;
+      cursor_trail_decay = "0.1 0.4";
+      cursor_trail_start_threshold = 2;
 
       # ---- Tab 栏 ----
       tab_bar_edge = "top";
