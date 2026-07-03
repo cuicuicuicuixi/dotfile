@@ -28,6 +28,10 @@
   # 进程
   psmem = "ps auxf | sort -nr -k 4 | head -5";
   pscpu = "ps auxf | sort -nr -k 3 | head -5";
+  # bat 扩展
+  man = "batman";       # man 页面带语法高亮
+  bdiff = "batdiff";    # git diff 带高亮
+  bgrep = "batgrep";    # grep 带高亮上下文
   # 杂项
   neofetch = "fastfetch";
 }

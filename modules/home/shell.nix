@@ -34,8 +34,16 @@ in
     # ---- 公共程序配置 ----
     programs.fzf.enable = true;
     programs.zoxide.enable = true;
-    programs.bat.enable = true;
-    programs.bat.config.theme = "gruvbox-dark";
+    programs.bat = {
+      enable = true;
+      config.theme = "gruvbox-dark";
+      extraPackages = with pkgs.bat-extras; [
+        batman    # 带高亮的 man 页面
+        batdiff   # 带语法高亮的 git diff
+        batgrep   # 带语法高亮的 grep
+        batwatch  # 带语法高亮的 watch
+      ];
+    };
 
     programs.eza.enable = true;
     programs.eza.icons = "auto";
