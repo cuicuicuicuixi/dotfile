@@ -45,66 +45,60 @@ config = {
 		top = 10,
 		bottom = 5,
 	},
-	color_scheme = "Panda (Gogh)",
+	-- Gruvbox Material Dark — 与 Ghostty / tmux 配色统一
+	-- 调色板参考: https://github.com/sainnhe/gruvbox-material
+	color_scheme = "Gruvbox Material (Gogh)",
+
+	-- 纯色背景 + 半透明（与 Ghostty 窗口背景 #1d2021 一致）
 	background = {
-		-- {
-		-- 	source = {
-		-- 		File = "/Users/user/Wallpapers/c2s2d.png",
-		-- 	},
-		-- 	hsb = {
-		-- 		brightness = 0.1,
-		-- 		hue = 1.0,
-		-- 		saturation = 1.02,
-		-- 	},
-		-- 	-- width = "100%",
-		-- 	-- height = "100%",
-		-- },
 		{
 			source = {
-				Color = "#282c35",
+				Color = "#1d2021",
 			},
 			width = "100%",
 			height = "100%",
-			opacity = 0.9,
+			opacity = 0.88,
 		},
 	},
+
+	-- 状态栏配色（与 tmux 状态栏风格统一）
 	colors = {
 		tab_bar = {
-			background = "#16161d",
+			background = "#1d2021",
 			active_tab = {
-				-- bg_color = "#7e9cd8",
-				bg_color = "#1f1f28",
-				fg_color = "#ff007b",
+				bg_color = "#504945",
+				fg_color = "#d4be98",
 			},
 			inactive_tab = {
-				bg_color = "#1f1f28",
-				fg_color = "#8b949e",
+				bg_color = "#1d2021",
+				fg_color = "#928374",
 			},
 			inactive_tab_hover = {
-				bg_color = "#484f58",
-				fg_color = "#b1bac4",
+				bg_color = "#3c3836",
+				fg_color = "#d4be98",
 			},
 			new_tab = {
-				bg_color = "#30363d",
-				fg_color = "#8b949e",
+				bg_color = "#1d2021",
+				fg_color = "#928374",
 			},
 			new_tab_hover = {
-				bg_color = "#484f58",
-				fg_color = "#b1bac4",
+				bg_color = "#3c3836",
+				fg_color = "#d4be98",
 			},
 		},
-		-- The color of the split lines between panes
-		split = "#ff007b",
+		-- 分屏分割线
+		split = "#504945",
 	},
+
+	-- 微妙的背景渐变（Gruvbox Material Dark 色阶）
 	window_background_gradient = {
 		orientation = { Linear = { angle = -60.0 } },
 		interpolation = "CatmullRom",
 		colors = {
-			"#16161d",
-			"#1a1b26",
-			"#222436",
-			"#24283b",
-			"#30363d",
+			"#1d2021",
+			"#282828",
+			"#32302f",
+			"#3c3836",
 		},
 		blend = "Rgb",
 	},
