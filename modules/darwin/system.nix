@@ -12,6 +12,12 @@
   # Touch ID 用于 sudo 认证
   security.pam.services.sudo_local.touchIdAuth = true;
 
+  # 自动清理旧世代，防止磁盘吃满
+  nix.gc = {
+    automatic = true;
+    options = "--delete-older-than 7d";
+  };
+
   # 给 nix-daemon 注入代理环境变量
   launchd.daemons.nix-daemon = {
     serviceConfig.EnvironmentVariables = {

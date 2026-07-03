@@ -18,6 +18,8 @@ in
 {
   home = {
     sessionVariables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
       MANPAGER = "nvim +Man!";
       MANWIDTH = "999";
       GOPATH = "${config.home.homeDirectory}/.local/share/go";
