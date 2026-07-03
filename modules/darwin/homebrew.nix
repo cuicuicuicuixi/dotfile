@@ -23,7 +23,6 @@
       "geekbench"
       "gimp"
       "google-chrome"
-      "kitty"
       "libreoffice"
       "macs-fan-control"
       "microsoft-remote-desktop"

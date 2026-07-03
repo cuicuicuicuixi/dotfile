@@ -41,7 +41,7 @@
     delta # 美化 git diff 输出
 
     # ---- 终端/开发工具 ----
-    wezterm # 终端模拟器（配置由 dotfiles/wezterm.lua 管理，shell.nix 链接）
+    wezterm # 终端模拟器（配置由 dotfiles/wezterm.lua 管理）
     # tmux 由 programs.tmux 管理（shell/tmux.nix）
     just # 命令运行器 (Make 替代)
     fnm # Node.js 版本管理
