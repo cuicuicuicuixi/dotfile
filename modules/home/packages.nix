@@ -8,7 +8,7 @@
 # 所有包均由 nixpkgs 按 hostPlatform 自动选择对应架构/平台版本，
 # 无需手动平台条件。
 
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   home.packages = with pkgs; [
     # ---- 编辑器 ----
@@ -83,5 +83,14 @@
 
     # ---- AI ----
     claude-code
+  ]
+  ++ lib.optionals pkgs.stdenv.isDarwin [
+    (pkgs.writeShellScriptBin "cleanhomebrew" ''
+      # 清理 Homebrew 缓存中失效的符号链接
+      for link in $(find ~/Library/Caches/Homebrew -type l); do
+        trash "$(realpath "$link")"
+        rm "$link"
+      done
+    '')
   ];
 }
