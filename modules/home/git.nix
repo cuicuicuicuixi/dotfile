@@ -7,6 +7,16 @@ in
 {
   programs.git = {
     enable = true;
+
+    # 全局 gitignore（所有仓库自动生效）
+    ignores = [
+      ".DS_Store"
+      "Thumbs.db"
+      "*~"
+      "*.swp"
+      "*.swo"
+    ];
+
     settings = {
       user = {
         name = localConfig.gitUserName;
@@ -17,6 +27,9 @@ in
       delta.features = "line-numbers decorations";
       merge.conflictstyle = "diff3";
       diff.colorMoved = "default";
+    };
+    aliases = {
+      bdiff = "!batdiff"; # git bdiff → 带语法高亮的 diff
     };
   };
 }
