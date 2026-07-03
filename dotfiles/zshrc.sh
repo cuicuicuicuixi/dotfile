@@ -1,16 +1,9 @@
-# --- 通过 zap 加载插件 ---
-plug "zsh-users/zsh-history-substring-search"
-plug "esc/conda-zsh-completion"
-plug "zsh-users/zsh-autosuggestions"
-plug "hlissner/zsh-autopair"
-plug "zap-zsh/supercharge"
-plug "zap-zsh/vim"
-plug "zap-zsh/zap-prompt"
-plug "zap-zsh/exa"
-plug "zsh-users/zsh-syntax-highlighting"
-
-# --- fzf keybindings + completion ---
-source <(fzf --zsh)
+# 以下插件已由 programs.zsh.plugins 管理（shell.nix）：
+#   zsh-autosuggestions, zsh-syntax-highlighting, zsh-history-substring-search, zsh-autopair
+# 以下已废弃（zap 专属，功能已有替代）：
+#   supercharge, vim, zap-prompt, exa, conda-zsh-completion
+#
+# fzf 集成由 programs.fzf 管理（shell.nix）
 
 # --- keybinds ---
 bindkey '^ ' autosuggest-accept
@@ -18,9 +11,9 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # --- bat 别名 ---
+# bat 配置由 programs.bat 管理（shell.nix），保留手动 fallback
 if command -v bat &> /dev/null; then
-  alias cat="bat -pp --theme \"Visual Studio Dark+\""
-  alias catt="bat --theme \"Visual Studio Dark+\""
+  alias cat="bat -pp"
 fi
 
 # --- Colormap ---

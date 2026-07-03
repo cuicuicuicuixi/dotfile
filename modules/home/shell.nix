@@ -1,81 +1,56 @@
+# Shell 配置入口
+# ==============
+# my.shell 选项控制使用 zsh（默认，所有平台）还是 bash（仅 Linux，作为后备）。
+# 两个 shell 模块都会被导入，但内部用 lib.mkIf 按选项条件启用。
+
 {
+  config,
   lib,
   self,
   ...
 }:
+let
+  cfg = config.my.shell;
+in
 {
+  # ---- 选项 ----
+  options.my.shell = lib.mkOption {
+    type = lib.types.enum [ "zsh" "bash" ];
+    default = "zsh";
+    description = "选择默认 shell 配置（bash 仅 Linux 有效）";
+  };
+
+  # ---- 模块导入（无条件导入全部，内部用 mkIf 条件化） ----
   imports = [
     ./shell/ghostty.nix
     ./shell/starship.nix
     ./shell/tmux.nix
     ./shell/lazyvim.nix
+    ./shell/zsh.nix
+    ./shell/bash.nix
   ];
 
-  programs.zoxide.enable = true;
-  xdg.configFile."fastfetch/config.jsonc".source = "${self}/dotfiles/fastfetch/config.jsonc";
-  xdg.configFile."fastfetch/startup.jsonc".source = "${self}/dotfiles/fastfetch/startup.jsonc";
-  xdg.configFile."wezterm/wezterm.lua".source = "${self}/dotfiles/wezterm.lua";
+  config = {
+    # ---- 公共程序配置 ----
+    programs.fzf.enable = true;
+    programs.zoxide.enable = true;
+    programs.bat.enable = true;
 
-  programs.zsh = lib.mkMerge [
-    {
-      enable = true;
-      history = {
-        size = 1000000;
-        save = 1000000;
-        path = "$HOME/.zsh_history";
-        ignoreDups = true;
-        share = true;
-      };
-      shellAliases = {
-        # ls 系列
-        ls = "eza --icons --group-directories-first";
-        ll = "eza --icons --group-directories-first -hl";
-        exa = "eza";
-        l = "ls -la";
-        # 编辑
-        vim = "nvim";
-        nvimrc = "nvim ~/.config/nvim/";
-        # git
-        g = "lazygit";
-        m = "git checkout master";
-        s = "git checkout stable";
-        # brew
-        bs = "brew search";
-        bi = "brew install";
-        bu = "brew uninstall";
-        bl = "brew list";
-        # grep
-        grep = "grep --color";
-        egrep = "egrep --color=auto";
-        fgrep = "fgrep --color=auto";
-        # 安全
-        cp = "cp -i";
-        mv = "mv -i";
-        rm = "rm -i";
-        # 磁盘
-        df = "df -h";
-        free = "free -m";
-        # 进程
-        psmem = "ps auxf | sort -nr -k 4 | head -5";
-        pscpu = "ps auxf | sort -nr -k 3 | head -5";
-        # 杂项
-        neofetch = "fastfetch";
-      };
-    }
-    {
-      initContent = ''
-        eval "$(fnm env)"
-      '';
-    }
-    {
-      initContent = lib.mkOrder 550 ''
-        [ -f "$HOME/.local/share/zap/zap.zsh" ] && source "$HOME/.local/share/zap/zap.zsh"
-      '';
-    }
-    {
-      initContent = ''
-        ${builtins.readFile "${self}/dotfiles/zshrc.sh"}
-      '';
-    }
-  ];
+    programs.eza.enable = true;
+    programs.eza.icons = "auto";
+    programs.eza.git = true;
+
+    programs.ripgrep.enable = true;
+
+    # direnv（按 shell 启用对应集成）
+    programs.direnv.enable = true;
+    programs.direnv.enableZshIntegration = cfg == "zsh";
+    programs.direnv.enableBashIntegration = cfg == "bash";
+    programs.direnv.nix-direnv.enable = true;
+
+    # 配置文件链接
+    xdg.configFile."fastfetch/config.jsonc".source = "${self}/dotfiles/fastfetch/config.jsonc";
+    xdg.configFile."fastfetch/startup.jsonc".source = "${self}/dotfiles/fastfetch/startup.jsonc";
+    xdg.configFile."wezterm/wezterm.lua".source = "${self}/dotfiles/wezterm.lua";
+  };
 }

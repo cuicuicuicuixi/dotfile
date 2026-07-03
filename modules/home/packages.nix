@@ -22,12 +22,12 @@
 
     # ---- Shell 工具 ----
     starship # shell 提示符
-    fzf # 模糊搜索
+    # fzf 由 programs.fzf 管理（shell.nix）
     zoxide # 智能目录跳转
     fd # 快速文件查找
-    ripgrep # 快速内容搜索
-    bat # 带语法高亮的 cat
-    eza # 现代 ls 替代
+    # ripgrep 由 programs.ripgrep 管理（shell.nix）
+    # bat 由 programs.bat 管理（shell.nix）
+    # eza 由 programs.eza 管理（shell.nix）
     zk # zsh 配置管理器
     shellcheck # shell 脚本 lint
 
@@ -41,6 +41,7 @@
     delta # 美化 git diff 输出
 
     # ---- 终端/开发工具 ----
+    wezterm # 终端模拟器（配置由 dotfiles/wezterm.lua 管理，shell.nix 链接）
     tmux # 终端复用器
     just # 命令运行器 (Make 替代)
     fnm # Node.js 版本管理

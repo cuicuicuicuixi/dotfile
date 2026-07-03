@@ -1,0 +1,70 @@
+# Zsh 配置（插件、别名、快捷键、启动脚本）
+# ==========================================
+# 仅在 my.shell = "zsh" 时启用（默认）。
+# 插件从 zap 迁移到 programs.zsh.plugins（Nix 原生管理）
+# 自定义启动脚本（代理函数、发行版检测等）保留在 dotfiles/zshrc.sh
+
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
+lib.mkIf (config.my.shell == "zsh") {
+  programs.zsh = lib.mkMerge [
+    {
+      enable = true;
+      history = {
+        size = 1000000;
+        save = 1000000;
+        path = "$HOME/.zsh_history";
+        ignoreDups = true;
+        share = true;
+      };
+
+      # zsh 插件（原 zap 管理，现由 Nix 原生管理）
+      plugins = [
+        {
+          name = "zsh-autosuggestions";
+          src = pkgs.zsh-autosuggestions;
+          file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
+        }
+        {
+          name = "zsh-syntax-highlighting";
+          src = pkgs.zsh-syntax-highlighting;
+          file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+        }
+        {
+          name = "zsh-history-substring-search";
+          src = pkgs.zsh-history-substring-search;
+          file = "share/zsh-history-substring-search/zsh-history-substring-search.zsh";
+        }
+        {
+          name = "zsh-autopair";
+          src = pkgs.zsh-autopair;
+          file = "share/zsh-autopair/autopair.zsh";
+        }
+      ];
+
+      # 插件快捷键
+      initContent = ''
+        bindkey '^ ' autosuggest-accept
+        bindkey '^[[A' history-substring-search-up
+        bindkey '^[[B' history-substring-search-down
+      '';
+
+      shellAliases = import ./aliases.nix;
+    }
+    {
+      initContent = ''
+        eval "$(fnm env)"
+      '';
+    }
+    {
+      initContent = ''
+        ${builtins.readFile "${self}/dotfiles/zshrc.sh"}
+      '';
+    }
+  ];
+}
