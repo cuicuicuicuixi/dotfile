@@ -35,6 +35,7 @@ in
     programs.fzf.enable = true;
     programs.zoxide.enable = true;
     programs.bat.enable = true;
+    programs.bat.config.theme = "gruvbox-dark";
 
     programs.eza.enable = true;
     programs.eza.icons = "auto";

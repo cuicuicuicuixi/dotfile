@@ -2,7 +2,7 @@
 # ==========================================
 # 仅在 my.shell = "zsh" 时启用（默认）。
 # 插件从 zap 迁移到 programs.zsh.plugins（Nix 原生管理）
-# 自定义启动脚本（代理函数、发行版检测等）保留在 dotfiles/zshrc.sh
+# 自定义启动脚本（代理函数、发行版检测等）保留在 dotfiles/shellrc.sh
 
 {
   config,
@@ -21,6 +21,7 @@ lib.mkIf (config.my.shell == "zsh") {
         path = "$HOME/.zsh_history";
         ignoreDups = true;
         share = true;
+        extended = true; # 每条记录带时间戳
       };
 
       # zsh 插件（原 zap 管理，现由 Nix 原生管理）
@@ -45,13 +46,28 @@ lib.mkIf (config.my.shell == "zsh") {
           src = pkgs.zsh-autopair;
           file = "share/zsh-autopair/autopair.zsh";
         }
+        {
+          name = "fzf-tab";
+          src = pkgs.zsh-fzf-tab;
+          file = "share/fzf-tab/fzf-tab.zsh";
+        }
       ];
+
+      # 补全增强：fzf-tab 交互界面 + fzf 模糊匹配引擎
+      completionInit = ''
+        # fzf-tab: Tab 后继续输入即可模糊筛选，方向键选择
+        zstyle ':fzf-tab:*' fzf-flags --height=50% --layout=reverse --border
+        zstyle ':fzf-tab:*' continuous-trigger '/'
+        zstyle ':completion:*' menu select=1
+        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*' 'l:|=* r:|=*'
+      '';
 
       # 插件快捷键（zsh 专属）
       initContent = ''
         bindkey '^ ' autosuggest-accept
         bindkey '^[[A' history-substring-search-up
         bindkey '^[[B' history-substring-search-down
+        # fzf: Ctrl-T 模糊搜索文件 / Ctrl-R 搜索历史
       '';
 
       shellAliases =
