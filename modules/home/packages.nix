@@ -61,7 +61,7 @@
 
     # ---- Nix 工具 ----
     nixfmt # Nix 代码格式化
-    # statix         # Nix 代码 lint (测试挂掉)
+    statix         # Nix 代码 lint
 
     # ---- 网络 ----
     curl
