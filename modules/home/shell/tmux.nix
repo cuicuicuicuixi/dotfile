@@ -51,9 +51,6 @@
       set -g pane-border-style "fg=#504945"
       set -g pane-active-border-style "fg=#504945"
 
-      # ---- UTF-8 ----
-      set -q -g status-utf8 on
-      setw -q -g utf8 on
     '';
   };
 }
