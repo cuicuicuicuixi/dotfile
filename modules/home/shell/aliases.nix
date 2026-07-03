@@ -6,7 +6,7 @@
   ls = "eza --icons --group-directories-first";
   ll = "eza --icons --group-directories-first -hl";
   exa = "eza";
-  l = "ls -la";
+  l = "eza --icons --group-directories-first -hla";
   # 编辑
   vim = "nvim";
   nvimrc = "nvim ~/.config/nvim/";

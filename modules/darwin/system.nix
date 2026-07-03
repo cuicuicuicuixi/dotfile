@@ -7,7 +7,7 @@
 #
 # 此模块在 Linux 上不可用。
 
-{ self, primaryUser, ... }:
+{ self, primaryUser, proxyAddr, ... }:
 {
   # Touch ID 用于 sudo 认证
   security.pam.services.sudo_local.touchIdAuth = true;
@@ -15,8 +15,8 @@
   # 给 nix-daemon 注入代理环境变量
   launchd.daemons.nix-daemon = {
     serviceConfig.EnvironmentVariables = {
-      http_proxy = "http://127.0.0.1:7890";
-      https_proxy = "http://127.0.0.1:7890";
+      http_proxy = proxyAddr;
+      https_proxy = proxyAddr;
     };
   };
 

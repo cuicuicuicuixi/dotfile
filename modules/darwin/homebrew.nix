@@ -12,10 +12,6 @@
 
     global.brewfile = true;
 
-    # 要安装的 brew 命令行工具
-    brews = [
-    ];
-
     # 要安装的 cask 图形化应用
     casks = [
       "betterdisplay"

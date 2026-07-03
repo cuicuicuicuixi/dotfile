@@ -14,13 +14,6 @@
 flake_dir := "$HOME/.config/nix"
 connect_timeout := "360"
 
-# 国内镜像源（清华 + 上交 + 中科大 + 官方兜底）
-mirror_substituters := "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store https://mirror.sjtu.edu.cn/nix-channels/store https://mirrors.ustc.edu.cn/nix-channels/store https://cache.nixos.org"
-
-# 检测系统架构
-arch := `uname -m`
-os := `uname -s`
-
 # 默认：检测系统并重建
 default: switch
 
@@ -63,19 +56,7 @@ props:
 
 # ---- 重建 ----
 switch mirror="":
-    @echo "==> 系统: {{os}} ({{arch}})"
-    @if [ "{{os}}" = "Darwin" ]; then \
-        echo "==> macOS: darwin-rebuild"; \
-        sudo darwin-rebuild switch --flake {{flake_dir}}#MacBook-Pro --impure --option connect-timeout {{connect_timeout}} {{if mirror != "" { "--option substituters \"" + mirror_substituters + "\"" } else { "" }}}; \
-    elif [ -f /etc/NIXOS ] || grep -q NixOS /etc/os-release 2>/dev/null; then \
-        HOST=$(if [ "{{arch}}" = "x86_64" ]; then echo "nixos-x86"; else echo "nixos-arm"; fi); \
-        echo "==> NixOS: nixos-rebuild ($HOST)"; \
-        sudo nixos-rebuild switch --flake {{flake_dir}}#$HOST --impure --option connect-timeout {{connect_timeout}} {{if mirror != "" { "--option substituters \"" + mirror_substituters + "\"" } else { "" }}}; \
-    else \
-        HOST="$(whoami)@$(if [ "{{arch}}" = "x86_64" ]; then echo "linux-x86"; else echo "linux-arm"; fi)"; \
-        echo "==> Linux: home-manager ($HOST)"; \
-        home-manager switch --flake {{flake_dir}}#$HOST --impure --option connect-timeout {{connect_timeout}} {{if mirror != "" { "--option substituters \"" + mirror_substituters + "\"" } else { "" }}}; \
-    fi
+    @FLAKE_DIR={{flake_dir}} CONNECT_TIMEOUT={{connect_timeout}} USE_MIRROR={{if mirror != "" { "true" } else { "false" }}} bash {{flake_dir}}/scripts/switch.sh
 
 # ---- 更新依赖 ----
 update:

@@ -44,16 +44,20 @@ esac
 export STARSHIP_DISTRO="$ICON"
 
 # --- 代理函数 ---
-function on_proxy() {
+# 代理地址由 flake.nix 统一管理，通过 $MY_PROXY_ADDR 注入（nix 环境），
+# 非 nix 环境下使用默认值。
+_PROXY_ADDR="${MY_PROXY_ADDR:-http://127.0.0.1:7890}"
+
+on_proxy() {
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
-    export http_proxy="http://127.0.0.1:7890"
+    export http_proxy="$_PROXY_ADDR"
     export https_proxy=$http_proxy
-    export all_proxy=socks5://127.0.0.1:7890
+    export all_proxy="socks5://${_PROXY_ADDR##*://}"
     echo -e "\n"
     echo -e "\033[32m代理已开启\033[0m"
 }
 
-function off_proxy(){
+off_proxy() {
     unset http_proxy
     unset https_proxy
     unset all_proxy

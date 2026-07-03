@@ -7,6 +7,7 @@
 {
   pkgs,
   lib,
+  proxyAddr ? "http://127.0.0.1:7890",
   ...
 }:
 {
@@ -15,6 +16,7 @@
       MANPAGER = "nvim +Man!";
       MANWIDTH = "999";
       GOPATH = "$HOME/.local/share/go";
+      MY_PROXY_ADDR = proxyAddr;
     };
     sessionPath =
       [
