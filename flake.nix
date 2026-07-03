@@ -41,7 +41,7 @@
       ...
     }:
     let
-      # 从 local.nix 读取（git tracked + assume-unchanged 保护本地修改）
+      # 从 local.nix 读取
       primaryUser =
         let localFile = ./modules/home/local.nix;
         in if builtins.pathExists localFile then
