@@ -1,4 +1,4 @@
-# 本地个人信息（不要提交到 git！）
+# 本地个人信息
 {
   gitUserName = "cuicuicuicuixi";
   gitUserEmail = "849343517@qq.com";

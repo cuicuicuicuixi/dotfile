@@ -36,7 +36,7 @@
     │   └── system.nix        # NixOS 系统设置
     └── home/                 # 跨平台用户环境配置（home-manager）
         ├── default.nix       # 入口
-        ├── local.nix         # 本地个人信息（Git 用户名/邮箱等，不推送）
+        ├── local.nix         # 本地个人信息（通过 just config 填写）
         ├── packages.nix      # 命令行工具包
         ├── env.nix           # 环境变量
         ├── fonts.nix         # 字体配置
@@ -99,8 +99,6 @@ just config
 ```
 
 按提示输入 Git 用户名、邮箱和系统用户名，会自动写入 `local.nix`。
-
-> 该文件包含个人信息，注意不要 `git add` 提交到仓库。仓库中保留占位版本。如需重置为占位值：`git checkout modules/home/local.nix`
 
 ## 📝 参考
 
