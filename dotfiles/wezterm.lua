@@ -7,19 +7,15 @@ if wezterm.config_builder then
 end
 
 config = {
+	-- 字体优先级与 fonts.nix 一致
 	font = wezterm.font_with_fallback({
-		{ family = "MonacoLigaturized", weight = "Regular" },
-		{ family = "JetBrains Mono", weight = "Regular" },
-		{ family = "Ubuntu Mono Ligaturized" },
-		{
-			family = "ComicCodeLigatures NF",
-			weight = "Light",
-			italic = false,
-			harfbuzz_features = { "calt=0", "clig=0" },
-		},
-		"手札体-简",
-		"娃娃体-简",
-		"Aa游龙行书",
+		"MonacoLigaturized",
+		"JetBrainsMono Nerd Font Mono",
+		"FiraCode Nerd Font Mono",
+		"MesloLGS Nerd Font Mono",
+		"PingFang SC",            -- 苹方（macOS 系统 CJK）
+		"Source Han Sans SC",     -- 思源黑体（Linux CJK）
+		"手札体-简",              -- Hannotate SC（macOS 手写体 CJK）
 	}),
 	front_end = "WebGpu",
 	font_size = 14,
