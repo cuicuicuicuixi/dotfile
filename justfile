@@ -6,7 +6,7 @@
 #   just config      重新填写本地配置（local.nix）
 #   just             默认：检测系统并执行 rebuild
 #   just switch -m   使用国内镜像加速
-#   just check       查看系统配置属性（替代 check_defaults.sh）
+#   just props       查看系统配置属性（替代 check_defaults.sh）
 #   just update      更新 flake.lock
 #   just clean       清理构建缓存
 # ==========================================================
@@ -57,8 +57,8 @@ install:
 config:
     bash {{flake_dir}}/scripts/config.sh {{flake_dir}}
 
-# ---- 系统检查 ----
-check:
+# ---- 系统属性 ----
+props:
     bash {{flake_dir}}/scripts/props.sh
 
 # ---- 重建 ----
