@@ -17,6 +17,7 @@ local opts = {
 local spec = {
   {
     "coder/claudecode.nvim",
+    -- snacks 已由 Nix extraPlugins 提供（lazyvim.nix），此处仅声明依赖关系
     dependencies = { "folke/snacks.nvim" },
     config = true,
     cmd = {

@@ -22,7 +22,7 @@
         "$HOME/.local/bin"
         "$HOME/.cargo/bin"
         "$HOME/.local/share/go/bin"
-        "$HOME/.fnm"
+        # fnm PATH 由 shellrc.sh 中 eval "$(fnm env)" 动态管理
         "$HOME/.local/share/neovim/bin"
         "$HOME/.docker/bin"
       ]

@@ -9,14 +9,9 @@
 # 注意：fileSystems 和 boot.loader 配置是占位默认值，
 # 不同机器的磁盘布局不同，安装时需要按实际情况调整。
 
-{ pkgs, ... }:
+{ ... }:
 {
-  # flakes 支持
-  nix.settings.experimental-features = "nix-command flakes";
-
-  # 允许 unfree 包白名单
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [ "claude-code" ];
-
+  # flakes + unfree 白名单已由 flake.nix 的 baseNixConfig 统一设置
   # 系统 locale
   i18n.defaultLocale = "en_US.UTF-8";
 

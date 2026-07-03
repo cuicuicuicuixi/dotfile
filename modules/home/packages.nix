@@ -16,14 +16,14 @@
     # neovim 由 home-manager nixvim 管理
 
     # ---- 版本控制 ----
-    git
+    # git 由 programs.git 管理（git.nix）
     git-lfs
     lazygit
 
     # ---- Shell 工具 ----
-    starship # shell 提示符
+    # starship 由 programs.starship 管理（shell/starship.nix）
     # fzf 由 programs.fzf 管理（shell.nix）
-    zoxide # 智能目录跳转
+    # zoxide 由 programs.zoxide 管理（shell.nix）
     fd # 快速文件查找
     # ripgrep 由 programs.ripgrep 管理（shell.nix）
     # bat 由 programs.bat 管理（shell.nix）
@@ -42,7 +42,7 @@
 
     # ---- 终端/开发工具 ----
     wezterm # 终端模拟器（配置由 dotfiles/wezterm.lua 管理，shell.nix 链接）
-    tmux # 终端复用器
+    # tmux 由 programs.tmux 管理（shell/tmux.nix）
     just # 命令运行器 (Make 替代)
     fnm # Node.js 版本管理
 

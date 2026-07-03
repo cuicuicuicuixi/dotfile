@@ -6,8 +6,8 @@
     onActivation = {
       autoUpdate = false;
       upgrade = true;
-      # 'zap'：移除所有未在配置中列出的 casks（谨慎使用）
-      # cleanup = "uninstall";
+      # 移除未在配置中列出的所有 brew/cask（声明式管理）
+      cleanup = "uninstall";
     };
 
     global.brewfile = true;
@@ -42,8 +42,5 @@
       "sublime-text"
       "zed"
     ];
-
-    # 可选：指定 Brewfile 路径（如果不使用上面的 brews/casks 声明）
-    # brewfile = ./Brewfile;
   };
 }
