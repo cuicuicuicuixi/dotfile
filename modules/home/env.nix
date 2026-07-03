@@ -5,28 +5,33 @@
 # Linux 下自动跳过。
 
 {
+  config,
   pkgs,
   lib,
-  proxyAddr ? "http://127.0.0.1:7890",
   ...
 }:
+let
+  # 代理地址由 flake.nix 传入（home-manager extraSpecialArgs），
+  # 非 nix 环境下使用默认值
+  proxyAddr = config._module.args.proxyAddr or "http://127.0.0.1:7890";
+in
 {
   home = {
     sessionVariables = {
       MANPAGER = "nvim +Man!";
       MANWIDTH = "999";
-      GOPATH = "$HOME/.local/share/go";
+      GOPATH = "${config.home.homeDirectory}/.local/share/go";
       MY_PROXY_ADDR = proxyAddr;
     };
     sessionPath =
       [
         # ---- 跨平台通用 ----
-        "$HOME/.local/bin"
-        "$HOME/.cargo/bin"
-        "$HOME/.local/share/go/bin"
+        "${config.home.homeDirectory}/.local/bin"
+        "${config.home.homeDirectory}/.cargo/bin"
+        "${config.home.homeDirectory}/.local/share/go/bin"
         # fnm PATH 由 shellrc.sh 中 eval "$(fnm env)" 动态管理
-        "$HOME/.local/share/neovim/bin"
-        "$HOME/.docker/bin"
+        "${config.home.homeDirectory}/.local/share/neovim/bin"
+        "${config.home.homeDirectory}/.docker/bin"
       ]
       # ---- macOS 专属 ----
       ++ lib.optionals pkgs.stdenv.isDarwin [

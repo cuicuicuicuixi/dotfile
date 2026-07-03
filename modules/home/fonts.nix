@@ -39,7 +39,9 @@ let
     "/System/Library/Fonts/Supplemental"                      # 补充字体（STHeiti 等）
     "/Library/Fonts"                                          # 全局用户安装字体
     "${homeDir}/Library/Fonts"                                # 当前用户字体（MonacoLigaturized）
-    "/System/Library/AssetsV2/com_apple_MobileAsset_Font8"    # PingFang 苹方（macOS Font Asset）
+    # PingFang 苹方（macOS Font Asset，路径随 macOS 版本变化）
+    # 如字体找不到，运行: find /System/Library/AssetsV2 -name "PingFang*" 2>/dev/null
+    "/System/Library/AssetsV2/com_apple_MobileAsset_Font8"
   ];
 in
 {

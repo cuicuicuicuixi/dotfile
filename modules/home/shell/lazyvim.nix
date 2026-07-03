@@ -36,7 +36,8 @@ let
           checker = { enabled = true, notify = false },
           performance = {
             rtp = {
-              disabled_plugins = { "gzip", "tarPlugin", "tohtml", "tutor", "zipPlugin" },
+              -- tohtml / tutor / zipPlugin 已由 LazyVim 默认禁用
+              disabled_plugins = { "gzip", "tarPlugin" },
             },
           },
         })
