@@ -43,19 +43,7 @@ install:
     # 2. 创建 local.nix
     @if [ ! -f "{{flake_dir}}/modules/home/local.nix" ]; then \
         echo ""; \
-        echo "==> 配置本地信息 ---"; \
-        read -p "  Git 用户名: " GIT_NAME; \
-        read -p "  Git 邮箱: " GIT_EMAIL; \
-        read -p "  主用户名 [$(whoami)]: " PRIMARY_USER; \
-        PRIMARY_USER="$${PRIMARY_USER:-$(whoami)}"; \
-        cat > "{{flake_dir}}/modules/home/local.nix" << NIXEOF; \
-    { \
-      gitUserName = "$$GIT_NAME"; \
-      gitUserEmail = "$$GIT_EMAIL"; \
-      primaryUser = "$$PRIMARY_USER"; \
-    } \
-    NIXEOF \
-        echo "==> local.nix 已创建"; \
+        just config; \
     else \
         echo "==> local.nix 已存在，跳过"; \
     fi
@@ -74,14 +62,7 @@ config:
     read -p "  Git 邮箱: " GIT_EMAIL; \
     read -p "  主用户名 [$(whoami)]: " PRIMARY_USER; \
     PRIMARY_USER="$${PRIMARY_USER:-$(whoami)}"; \
-    cat > "{{flake_dir}}/modules/home/local.nix" << NIXEOF
-# 本地个人信息（不要提交到 git！）
-{
-  gitUserName = "$$GIT_NAME";
-  gitUserEmail = "$$GIT_EMAIL";
-  primaryUser = "$$PRIMARY_USER";
-}
-NIXEOF
+    printf '# 本地个人信息（不要提交到 git！）\n{\n  gitUserName = "%s";\n  gitUserEmail = "%s";\n  primaryUser = "%s";\n}\n' "$$GIT_NAME" "$$GIT_EMAIL" "$$PRIMARY_USER" > "{{flake_dir}}/modules/home/local.nix"
     @echo ""
     @echo "==> 配置已写入 modules/home/local.nix"
 
