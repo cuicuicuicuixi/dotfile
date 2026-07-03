@@ -41,13 +41,7 @@
       ...
     }:
     let
-      # 从 gitignored local.nix 读取用户信息，不存在则用占位值
-      localConfig =
-        if builtins.pathExists ./modules/home/local.nix then
-          import ./modules/home/local.nix
-        else
-          { primaryUser = "user"; };
-      primaryUser = localConfig.primaryUser;
+      primaryUser = "zhangweifeng";
 
       # 所有系统共享的 nix 基础配置（flakes 开关 + unfree 白名单）
       baseNixConfig =

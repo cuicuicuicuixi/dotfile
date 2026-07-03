@@ -32,7 +32,7 @@ fi
 case "$(uname -s)" in
   Darwin)
     echo "==> macOS 检测到，使用 darwin-rebuild"
-    sudo darwin-rebuild switch --flake "$FLAKE_DIR#MacBook-Pro" "${EXTRA_ARGS[@]}"
+    sudo darwin-rebuild switch --flake "$FLAKE_DIR#MacBook-Pro" --impure "${EXTRA_ARGS[@]}"
     ;;
   Linux)
     ARCH=$(uname -m)
@@ -48,12 +48,12 @@ case "$(uname -s)" in
     if [ -f /etc/NIXOS ] || grep -q NixOS /etc/os-release 2>/dev/null; then
       [ "$ARCH" = "x86_64" ] && HOST="nixos-x86" || HOST="nixos-arm"
       echo "==> NixOS ($ARCH) 检测到，使用 nixos-rebuild"
-      sudo nixos-rebuild switch --flake "$FLAKE_DIR#$HOST" "${EXTRA_ARGS[@]}"
+      sudo nixos-rebuild switch --flake "$FLAKE_DIR#$HOST" --impure "${EXTRA_ARGS[@]}"
     else
       # 非 NixOS Linux，使用独立 home-manager
       [ "$ARCH" = "x86_64" ] && HOST="${USER}@linux-x86" || HOST="${USER}@linux-arm"
       echo "==> Linux 非 NixOS ($ARCH) 检测到，使用 home-manager"
-      home-manager switch --flake "$FLAKE_DIR#$HOST" "${EXTRA_ARGS[@]}"
+      home-manager switch --flake "$FLAKE_DIR#$HOST" --impure "${EXTRA_ARGS[@]}"
     fi
     ;;
   *)
