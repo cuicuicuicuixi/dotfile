@@ -23,7 +23,7 @@
       "geekbench"
       "gimp"
       "google-chrome"
-      "libreoffice"
+
       "macs-fan-control"
       "microsoft-remote-desktop"
       "microsoft-teams"
