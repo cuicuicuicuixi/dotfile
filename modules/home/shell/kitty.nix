@@ -17,6 +17,7 @@
       window_padding_width = 10;
       hide_window_decorations = "no";
       confirm_os_window_close = 0;
+      macos_titlebar_color = "background";
 
       # ---- 光标 ----
       cursor_shape = "beam";
