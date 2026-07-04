@@ -15,7 +15,6 @@
     # 要安装的 cask 图形化应用
     casks = [
       "betterdisplay"
-      "cmake-app"
       "dingtalk"
 
       "feishu"
