@@ -56,23 +56,24 @@
 
 ## 🚀 快速开始
 
-### 安装
+### 首次安装
 
 ```bash
-# 克隆仓库
-git clone https://github.com/cuicuicuicuixi/dotfile.git ~/.config/nix
-cd ~/.config/nix
-git checkout nix-flake
-
-# 一键安装（自动安装 Nix、生成本地配置、首次构建）
-just install
+git clone https://github.com/cuicuicuicuixi/dotfile.git ~/.config/nix && \
+  bash ~/.config/nix/scripts/bootstrap.sh
 ```
+
+`bootstrap.sh` 会自动处理：安装 Nix（如未安装）→ 生成本地配置 → 首次构建。
+
+构建完成后 `just` 由 nix 接管安装（`modules/home/packages.nix`），之后直接用 `just` 即可。
+
+> **⚠️ Homebrew 用户注意**：如果你已通过 `brew install` 安装了大量 CLI 工具，**首次构建前** 请将 `modules/darwin/homebrew.nix` 中的 `cleanup` 改为 `"none"` 或 `"check"`，否则 `cleanup = "uninstall"` 会卸载所有未被 nix 声明的 brew formula/cask。确认预期效果后再改回 `"uninstall"`。
 
 ### 日常使用
 
 ```bash
 just              # 重建系统（自动检测平台）
-just config       # 重新填写本地配置（Git 用户名/邮箱等）
+just config       # 重新填写本地配置（Git 用户名/邮箱/代理端口等）
 just switch -m    # 使用国内镜像加速
 just update       # 更新 flake.lock 依赖
 just clean        # 清理 nix store 和旧世代
