@@ -10,10 +10,6 @@
   lib,
   ...
 }:
-let
-  # 代理地址由 flake.nix 传入（home-manager extraSpecialArgs）
-  proxyAddr = config._module.args.proxyAddr or null;
-in
 {
   home = {
     sessionVariables = {
@@ -22,7 +18,6 @@ in
       MANPAGER = "nvim +Man!";
       MANWIDTH = "999";
       GOPATH = "${config.home.homeDirectory}/.local/share/go";
-      MY_PROXY_ADDR = proxyAddr;
     };
     sessionPath =
       [
