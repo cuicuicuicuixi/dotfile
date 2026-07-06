@@ -9,8 +9,11 @@
 
 { self, lib, primaryUser, proxyAddr, ... }:
 {
-  # Touch ID 用于 sudo 认证
-  security.pam.services.sudo_local.touchIdAuth = true;
+  # sudo 认证：Touch ID（优先）+ Apple Watch（Touch ID 失败时降级）
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    watchIdAuth = true;
+  };
 
   # 自动清理旧世代，防止磁盘吃满
   nix.gc = {
