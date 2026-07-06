@@ -7,7 +7,7 @@
 - **多平台支持** — macOS（nix-darwin）、NixOS、其他 Linux（home-manager）统一管理
 - **声明式配置** — 所有系统设置、应用包、dotfiles 均以 Nix 声明
 - **模块化架构** — 系统管理 / 用户环境 / Shell 组件分层清晰
-- **一键安装** — `just install` 自动检测系统类型，生成本地配置并完成首次构建
+- **一键安装** — `bash bootstrap.sh` 从零开始：安装 Nix → 生成本地配置 → 完成首次构建
 
 ## 📁 目录结构
 
