@@ -65,28 +65,7 @@ lib.mkIf (config.my.shell == "zsh") {
     # 启动脚本（代理函数 + 插件快捷键 + shellrc + zshrc）
     initContent = ''
       # ---- 代理函数（地址由 local.nix proxyPort 在 build 时确定） ----
-      ${
-        if proxyAddr != null then ''
-      on_proxy() {
-          export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
-          export http_proxy="${proxyAddr}"
-          export https_proxy=$http_proxy
-          export all_proxy="socks5://${lib.removePrefix "http://" proxyAddr}"
-          echo -e "\033[32m代理已开启\033[0m"
-      }
-        '' else ''
-      on_proxy() {
-          echo -e "\033[31m未配置代理端口，请在 local.nix 中设置 proxyPort\033[0m"
-          return 1
-      }
-        ''
-      }
-      off_proxy() {
-          unset http_proxy
-          unset https_proxy
-          unset all_proxy
-          echo -e "\033[31m代理已关闭\033[0m"
-      }
+      ${import ./proxy-func.nix proxyAddr}
 
       bindkey '^ ' autosuggest-accept
       bindkey '^[[A' history-substring-search-up
