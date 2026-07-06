@@ -8,6 +8,7 @@
   lib,
   pkgs,
   self,
+  proxyAddr ? null,
   ...
 }:
 lib.mkIf (config.my.shell == "bash" && pkgs.stdenv.isLinux) {
@@ -21,7 +22,12 @@ lib.mkIf (config.my.shell == "bash" && pkgs.stdenv.isLinux) {
     # 别名（与 zsh 共用同一份定义）
     shellAliases = import ./aliases.nix;
 
-    # 自定义 bashrc（与 zsh 共享 shellrc.sh：fnm / bat / distro / proxy / conda / fastfetch）
-    bashrcExtra = builtins.readFile "${self}/dotfiles/shellrc.sh";
+    # 自定义 bashrc（代理函数 + 共享 shellrc.sh）
+    bashrcExtra = ''
+      # ---- 代理函数（地址由 local.nix proxyPort 在 build 时确定） ----
+      ${import ./proxy-func.nix proxyAddr}
+
+      ${builtins.readFile "${self}/dotfiles/shellrc.sh"}
+    '';
   };
 }

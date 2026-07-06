@@ -9,6 +9,7 @@
   lib,
   pkgs,
   self,
+  proxyAddr ? null,
   ...
 }:
 lib.mkIf (config.my.shell == "zsh") {
@@ -61,8 +62,11 @@ lib.mkIf (config.my.shell == "zsh") {
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*' 'l:|=* r:|=*'
     '';
 
-    # 启动脚本（插件快捷键 + shellrc + zshrc）
+    # 启动脚本（代理函数 + 插件快捷键 + shellrc + zshrc）
     initContent = ''
+      # ---- 代理函数（地址由 local.nix proxyPort 在 build 时确定） ----
+      ${import ./proxy-func.nix proxyAddr}
+
       bindkey '^ ' autosuggest-accept
       bindkey '^[[A' history-substring-search-up
       bindkey '^[[B' history-substring-search-down

@@ -44,25 +44,8 @@ esac
 export STARSHIP_DISTRO="$ICON"
 
 # --- 代理函数 ---
-# 代理地址由 flake.nix 统一管理，通过 $MY_PROXY_ADDR 注入（nix 环境），
-# 非 nix 环境下使用默认值。
-_PROXY_ADDR="${MY_PROXY_ADDR:-http://127.0.0.1:7890}"
-
-on_proxy() {
-    export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
-    export http_proxy="$_PROXY_ADDR"
-    export https_proxy=$http_proxy
-    export all_proxy="socks5://${_PROXY_ADDR##*://}"
-    echo -e "\n"
-    echo -e "\033[32m代理已开启\033[0m"
-}
-
-off_proxy() {
-    unset http_proxy
-    unset https_proxy
-    unset all_proxy
-    echo -e "\033[31m代理已关闭\033[0m"
-}
+# 由 nix 在 zsh.nix / bash.nix 中根据 local.nix 的 proxyPort 生成，
+# 变更代理端口后需 just switch 生效。
 
 # --- conda（自动检测常见路径） ---
 for _conda_base in "$HOME/miniconda3" "$HOME/anaconda3" "$HOME/miniforge3" "/opt/homebrew/Caskroom/miniconda/base"; do

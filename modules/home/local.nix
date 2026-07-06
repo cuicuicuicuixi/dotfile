@@ -3,4 +3,5 @@
   gitUserName = "cuicuicuicuixi";
   gitUserEmail = "849343517@qq.com";
   primaryUser = "zhangweifeng";
+  proxyPort = 7890;
 }
