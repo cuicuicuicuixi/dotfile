@@ -11,9 +11,8 @@
   ...
 }:
 let
-  # 代理地址由 flake.nix 传入（home-manager extraSpecialArgs），
-  # 非 nix 环境下使用默认值
-  proxyAddr = config._module.args.proxyAddr or "http://127.0.0.1:7890";
+  # 代理地址由 flake.nix 传入（home-manager extraSpecialArgs）
+  proxyAddr = config._module.args.proxyAddr or null;
 in
 {
   home = {

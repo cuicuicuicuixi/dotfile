@@ -48,6 +48,7 @@
             ├── bash.nix      # Bash 配置（Linux 后备）
             ├── starship.nix  # Starship 提示符
             ├── tmux.nix      # Tmux 配置
+            ├── kitty.nix     # Kitty 终端配置
             ├── ghostty.nix   # Ghostty 终端配置
             ├── lazyvim.nix   # LazyVim 集成
             └── aliases.nix   # 命令别名
@@ -87,8 +88,9 @@ just clean        # 清理 nix store 和旧世代
 | **Git** | Git + LazyGit + Delta (diff 美化) + 全局 gitignore |
 | **SSH** | 多服务器统一客户端配置（settings API） |
 | **工作流** | Tmux + Direnv + Just + bat-extras (batman/batdiff/batgrep) |
-| **语言** | Rust (rustc + cargo)、Node.js (fnm) |
+| **语言** | Rust (rustc + cargo)、Node.js (fnm)、Python (miniconda) |
 | **AI** | Claude Code |
+| **代理** | 本地代理端口可配置（`just config`），nix-daemon / shell 环境按需注入 |
 | **字体** | 多字体配置（见 `modules/home/fonts.nix`） |
 | **系统** | nix gc 自动清理 7 天前旧世代 |
 | **工具** | htop/btop、ripgrep/fd/bat/eza、difftastic、typst 等 |
@@ -101,7 +103,9 @@ just clean        # 清理 nix store 和旧世代
 just config
 ```
 
-按提示输入 Git 用户名、邮箱和系统用户名，会自动写入 `local.nix`。
+按提示输入 Git 用户名、邮箱、系统用户名和 HTTP 代理端口，会自动写入 `local.nix`。
+
+代理端口留空表示不使用代理，nix-daemon 将不会注入代理环境变量。`on_proxy` / `off_proxy` 函数可动态开关终端代理。
 
 ## 📝 参考
 

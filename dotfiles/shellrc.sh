@@ -46,9 +46,13 @@ export STARSHIP_DISTRO="$ICON"
 # --- 代理函数 ---
 # 代理地址由 flake.nix 统一管理，通过 $MY_PROXY_ADDR 注入（nix 环境），
 # 非 nix 环境下使用默认值。
-_PROXY_ADDR="${MY_PROXY_ADDR:-http://127.0.0.1:7890}"
+_PROXY_ADDR="${MY_PROXY_ADDR:-}"
 
 on_proxy() {
+    if [ -z "$_PROXY_ADDR" ]; then
+        echo -e "\033[31m未配置代理端口，请在 local.nix 中设置 proxyPort\033[0m"
+        return 1
+    fi
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
     export http_proxy="$_PROXY_ADDR"
     export https_proxy=$http_proxy

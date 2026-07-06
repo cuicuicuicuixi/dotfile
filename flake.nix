@@ -41,16 +41,17 @@
       ...
     }:
     let
-      # 从 local.nix 读取
-      primaryUser =
+      # 从 local.nix 读取本地配置
+      localConfig =
         let localFile = ./modules/home/local.nix;
-        in if builtins.pathExists localFile then
-          (import localFile).primaryUser
-        else
-          "user";
+        in if builtins.pathExists localFile then import localFile else { };
 
-      # 共享配置（单一定义，多模块引用）
-      proxyAddr = "http://127.0.0.1:7890";
+      primaryUser = localConfig.primaryUser or "user";
+
+      # 代理地址：从 local.nix 读取端口，null 表示无代理
+      proxyAddr =
+        let port = localConfig.proxyPort or null;
+        in if port == null || port == 0 then null else "http://127.0.0.1:${toString port}";
 
       # 所有系统共享的 nix 基础配置（flakes 开关 + unfree 白名单）
       baseNixConfig =
