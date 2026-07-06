@@ -20,32 +20,7 @@ default: switch
 
 # ---- 首次安装 ----
 install:
-    @echo "================================================"
-    @echo "  Nix 配置安装"
-    @echo "================================================"
-    @echo ""
-    # 1. 安装 Nix
-    @if ! command -v nix &>/dev/null; then \
-        echo "==> 未检测到 Nix，正在安装..."; \
-        sh <(curl -L https://nixos.org/nix/install) --daemon; \
-        if [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then \
-            . "$HOME/.nix-profile/etc/profile.d/nix.sh"; \
-        fi; \
-        echo "==> Nix 安装完成"; \
-    else \
-        echo "==> Nix 已安装: $(nix --version)"; \
-    fi
-    # 2. 创建 local.nix
-    @if [ ! -f "{{flake_dir}}/modules/home/local.nix" ]; then \
-        echo ""; \
-        just config; \
-    else \
-        echo "==> local.nix 已存在，跳过"; \
-    fi
-    # 3. 首次构建
-    @echo ""
-    @echo "==> 开始首次构建..."
-    @just switch
+    bash {{flake_dir}}/scripts/bootstrap.sh
 
 # ---- 本地配置 ----
 config:
