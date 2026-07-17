@@ -23,13 +23,14 @@ in
 
   # ---- 模块导入（无条件导入全部，内部用 mkIf 条件化） ----
   imports = [
-    # ./shell/ghostty.nix
     ./shell/starship.nix
     ./shell/tmux.nix
     ./shell/lazyvim.nix
-    # ./shell/kitty.nix
     ./shell/zsh.nix
     ./shell/bash.nix
+  ] ++ lib.optionals pkgs.stdenv.isDarwin [
+    ./shell/ghostty.nix
+    ./shell/kitty.nix
   ];
 
   config = {
