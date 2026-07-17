@@ -28,10 +28,21 @@
 # fc-list "PingFang SC" family  # 确认某个字体是否被发现
 # FC_DEBUG=4 fc-match sans-serif 2>&1 | head  # 详细匹配过程
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, self, ... }:
 let
   isDarwin = pkgs.stdenv.isDarwin;
   homeDir = config.home.homeDirectory;
+
+  # 自创 MonacoLigaturized 字体（含 Nerd Font 图标补丁 + 连字）
+  monaco-ligaturized = pkgs.stdenv.mkDerivation {
+    pname = "monaco-ligaturized";
+    version = "1.0";
+    src = self + "/assets/fonts/monaco-ligaturized";
+    installPhase = ''
+      mkdir -p $out/share/fonts/truetype
+      cp $src/*.ttf $out/share/fonts/truetype/
+    '';
+  };
 
   # macOS 字体搜索路径
   darwinFontDirs = lib.optionals isDarwin [
@@ -108,6 +119,8 @@ in
   };
 
   home.packages = with pkgs; [
+    # ---- 自创字体 ----
+    monaco-ligaturized
     # ---- 编程字体（Nerd Fonts，含图标补丁，跨平台） ----
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
