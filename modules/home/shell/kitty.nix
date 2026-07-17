@@ -1,10 +1,9 @@
-# Kitty 终端模拟器（与 ghostty/wezterm 保持 Gruvbox Material Dark 一致）
-# =========================================================================
-
 {
+  lib,
+  pkgs,
   ...
 }:
-{
+lib.mkIf pkgs.stdenv.isDarwin {
   programs.kitty = {
     enable = true;
 

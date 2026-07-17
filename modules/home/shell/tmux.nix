@@ -8,6 +8,7 @@
     baseIndex = 1;
     escapeTime = 10;
     terminal = "tmux-256color";
+    historyLimit = 20000;
 
 
     extraConfig = ''
@@ -56,6 +57,8 @@
       set -g pane-border-style "fg=#504945"
       set -g pane-active-border-style "fg=#504945"
 
+      set -g set-clipboard on
+      set -ga terminal-overrides ',*:Ms=\E]52;%p1%s;%p2%s\007'
 
     '';
   };

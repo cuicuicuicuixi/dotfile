@@ -28,7 +28,6 @@ in
     ./shell/lazyvim.nix
     ./shell/zsh.nix
     ./shell/bash.nix
-  ] ++ lib.optionals pkgs.stdenv.isDarwin [
     ./shell/ghostty.nix
     ./shell/kitty.nix
   ];
