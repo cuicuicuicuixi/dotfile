@@ -64,7 +64,7 @@ lib.mkIf (config.my.shell == "zsh") {
 
     # 启动脚本（代理函数 + 插件快捷键 + shellrc + zshrc）
     initContent = ''
-      # ---- 代理函数（地址由 local.nix proxyPort 在 build 时确定） ----
+      # ---- 代理函数（地址由本机私有配置的 proxyPort 在 build 时确定） ----
       ${import ./proxy-func.nix proxyAddr}
 
       bindkey '^ ' autosuggest-accept

@@ -7,6 +7,8 @@
     mouse = true;
     baseIndex = 1;
     escapeTime = 10;
+    terminal = "tmux-256color";
+
 
     extraConfig = ''
       # ---- 快捷键 ----
@@ -29,6 +31,9 @@
       bind -r [ previous-window
       bind -r ] next-window
 
+
+      bind e setw synchronize-panes
+
       # ---- 状态栏（Gruvbox Material Dark） ----
       set -g status-position bottom
       set -g status-right-length "100"
@@ -50,6 +55,7 @@
       # ---- 分屏边框 ----
       set -g pane-border-style "fg=#504945"
       set -g pane-active-border-style "fg=#504945"
+
 
     '';
   };

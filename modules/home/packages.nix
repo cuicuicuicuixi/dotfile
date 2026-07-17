@@ -41,7 +41,7 @@
     delta # 美化 git diff 输出
 
     # ---- 终端/开发工具 ----
-    wezterm # 终端模拟器（配置由 dotfiles/wezterm.lua 管理）
+    # wezterm # 终端模拟器（配置由 dotfiles/wezterm.lua 管理）
     # tmux 由 programs.tmux 管理（shell/tmux.nix）
     just # 命令运行器 (Make 替代)
     fnm # Node.js 版本管理
@@ -67,7 +67,6 @@
     curl
     wget
     yt-dlp # 视频下载
-    inetutils # telnet 等网络工具
 
     # ---- 多媒体/图像 ----
     graphviz # 图形可视化
@@ -79,10 +78,15 @@
     luarocks # Lua 包管理器
     stylua # Lua 格式化
     trash-cli # 命令行回收站
-    usbutils # USB 设备工具
 
     # ---- AI ----
     claude-code
+  ]
+  ++ lib.optionals pkgs.stdenv.isLinux [
+    # 以下为 Linux 专属包（在 macOS/Darwin 上不可用）
+    usbutils # lsusb 等 USB 设备工具
+    iputils # Linux 版 ping（支持 -M/-6 等网络诊断工具）
+    iproute2 # ip/ss 等网络工具
   ]
   ++ lib.optionals pkgs.stdenv.isDarwin [
     (pkgs.writeShellScriptBin "cleanhomebrew" ''

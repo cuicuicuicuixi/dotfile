@@ -1,7 +1,7 @@
 # Shell 配置入口
 # ==============
-# my.shell 选项控制使用 zsh（默认，所有平台）还是 bash（仅 Linux，作为后备）。
-# 两个 shell 模块都会被导入，但内部用 lib.mkIf 按选项条件启用。
+# my.shell 选项控制使用 Zsh（默认，所有平台）还是 Bash（仅 Linux，作为后备）。
+# 两个 Shell 模块都会被导入，但内部用 lib.mkIf 按选项条件启用。
 
 {
   config,
@@ -18,16 +18,16 @@ in
   options.my.shell = lib.mkOption {
     type = lib.types.enum [ "zsh" "bash" ];
     default = "zsh";
-    description = "选择默认 shell 配置（bash 仅 Linux 有效）";
+    description = "选择默认 Shell 配置（Bash 仅 Linux 有效）";
   };
 
   # ---- 模块导入（无条件导入全部，内部用 mkIf 条件化） ----
   imports = [
-    ./shell/ghostty.nix
+    # ./shell/ghostty.nix
     ./shell/starship.nix
     ./shell/tmux.nix
     ./shell/lazyvim.nix
-    ./shell/kitty.nix
+    # ./shell/kitty.nix
     ./shell/zsh.nix
     ./shell/bash.nix
   ];

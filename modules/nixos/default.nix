@@ -11,25 +11,34 @@
   pkgs,
   inputs,
   self,
+  localConfig,
   primaryUser,
   proxyAddr,
   ...
 }:
 {
   imports = [
-    ./system.nix # NixOS 基础系统设置（boot、locale、zsh）
+    ./system.nix # NixOS 基础系统设置（locale、zsh、stateVersion）
   ];
 
   # ---- Linux 用户创建 ----
-  users.users.${primaryUser} = {
-    isNormalUser = true;
-    home = "/home/${primaryUser}";
-    shell = pkgs.zsh;
-    extraGroups = [
-      "wheel" # sudo 权限
-      "networkmanager" # 网络管理
-    ];
-  };
+  # root 是已有系统账户，只设置 home/shell；其他用户按普通管理员账户创建。
+  users.users.${primaryUser} =
+    if primaryUser == "root" then
+      {
+        home = "/root";
+        shell = pkgs.zsh;
+      }
+    else
+      {
+        isNormalUser = true;
+        home = "/home/${primaryUser}";
+        shell = pkgs.zsh;
+        extraGroups = [
+          "wheel" # sudo 权限
+          "networkmanager" # 网络管理
+        ];
+      };
 
   # ---- home-manager 集成 ----
   # 与 darwin/default.nix 完全对称，用户级配置共享同一套 ../home
@@ -43,7 +52,7 @@
       ];
     };
     extraSpecialArgs = {
-      inherit inputs self primaryUser proxyAddr;
+      inherit inputs self localConfig primaryUser proxyAddr;
     };
   };
 }

@@ -3,7 +3,7 @@
 # ==========================================================
 # 用法：
 #   just install     首次安装（安装 Nix + 配置 + 构建）
-#   just config      重新填写本地配置（local.nix）
+#   just config      重新填写仓库外的本机私有配置
 #   just             默认：检测系统并执行 rebuild
 #   just switch -m   使用国内镜像加速
 #   just props       查看系统配置属性
@@ -24,7 +24,7 @@ install:
 
 # ---- 本地配置 ----
 config:
-    bash {{flake_dir}}/scripts/config.sh {{flake_dir}}
+    bash {{flake_dir}}/scripts/config.sh
 
 # ---- 系统属性 ----
 props:
@@ -33,7 +33,7 @@ props:
 # ---- 配置验证 ----
 verify:
     @echo "==> 验证 flake 配置..."
-    cd {{flake_dir}} && nix flake check
+    cd {{flake_dir}} && NIX_LOCAL_CONFIG=${NIX_LOCAL_CONFIG:-${XDG_CONFIG_HOME:-$HOME/.config}/nix-local/local.nix} nix flake check --impure
     @echo "==> 验证通过"
 
 # ---- 重建 ----
