@@ -28,6 +28,8 @@
     homeDirectory =
       if pkgs.stdenv.isDarwin then
         "/Users/${primaryUser}"
+      else if primaryUser == "root" then
+	"/root"
       else
         "/home/${primaryUser}";
     username = primaryUser;

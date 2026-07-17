@@ -26,6 +26,9 @@
 │   ├── shellrc.sh            # 通用 Shell 初始化
 │   ├── fastfetch/            # Fastfetch 系统信息展示
 │   └── nvim/                 # Neovim 配置（LazyVim）
+├── hosts/                    # NixOS 主机级配置
+│   ├── nixos-x86/            # x86_64 主机入口及硬件配置
+│   └── nixos-arm/            # aarch64 主机入口及硬件配置
 └── modules/
     ├── darwin/               # macOS 系统级配置（nix-darwin）
     │   ├── default.nix       # 入口（导入 system + homebrew + home-manager 集成）
@@ -36,7 +39,7 @@
     │   └── system.nix        # NixOS 系统设置
     └── home/                 # 跨平台用户环境配置（home-manager）
         ├── default.nix       # 入口
-        ├── local.nix         # 本地个人信息（通过 just config 填写）
+        ├── local.example.nix # 无个人信息的安全默认配置
         ├── packages.nix      # 命令行工具包
         ├── env.nix           # 环境变量
         ├── fonts.nix         # 字体配置
@@ -63,9 +66,9 @@ git clone https://github.com/cuicuicuicuixi/dotfile.git ~/.config/nix && \
   bash ~/.config/nix/scripts/bootstrap.sh
 ```
 
-`bootstrap.sh` 会自动处理：安装 Nix（如未安装）→ 生成本地配置 → 首次构建。
+`bootstrap.sh` 会自动处理：下载 Nix 安装器（如未安装）→ 生成仓库外本机配置 → 首次构建。安装器不会直接执行网络响应，而是先保存到临时文件；建议通过可信渠道取得摘要并设置 `NIX_INSTALLER_SHA256`。未提供摘要时脚本会显示下载文件摘要并要求人工确认，但这不等同于来源校验。
 
-构建完成后 `just` 由 nix 接管安装（`modules/home/packages.nix`），之后直接用 `just` 即可。
+构建完成后 `just` 由 nix 接管安装（`modules/home/packages.nix`），之后直接用 `just` 即可。NixOS 用户首次使用前，必须用目标机器生成的真实配置替换 `hosts/<hostname>/hardware-configuration.nix`，检查无误后再把同目录的 `enabled.nix` 改为 `true`；未启用的主机不会出现在 Flake 输出中。
 
 > **⚠️ Homebrew 用户注意**：如果你已通过 `brew install` 安装了大量 CLI 工具，**首次构建前** 请将 `modules/darwin/homebrew.nix` 中的 `cleanup` 改为 `"none"` 或 `"check"`，否则 `cleanup = "uninstall"` 会卸载所有未被 nix 声明的 brew formula/cask。确认预期效果后再改回 `"uninstall"`。
 
@@ -98,15 +101,25 @@ just clean        # 清理 nix store 和旧世代
 
 ## ⚙️ 本地配置
 
-仓库中 `modules/home/local.nix` 是占位文件。首次使用时运行：
+仓库只保留不含个人信息的 `modules/home/local.example.nix`。首次使用时运行：
 
 ```bash
 just config
 ```
 
-按提示输入 Git 用户名、邮箱、系统用户名和 HTTP 代理端口，会自动写入 `local.nix`。
+按提示输入 Git 用户名、邮箱、系统用户名和 HTTP 代理端口；短主机名与 Nix 系统平台会自动检测。配置默认写入 `$XDG_CONFIG_HOME/nix-local/local.nix`（未设置 `XDG_CONFIG_HOME` 时为 `~/.config/nix-local/local.nix`），权限为 `0600`，不会进入 Flake 仓库。可通过 `NIX_LOCAL_CONFIG` 覆盖配置路径，通过 `NIX_HOSTNAME` 覆盖检测到的短主机名。非 NixOS Home Manager 输出名称为 `<用户>@<主机名>`。
 
 代理端口留空表示不使用代理，nix-daemon 将不会注入代理环境变量。`on_proxy` / `off_proxy` 函数可动态开关终端代理。
+
+### Flake 输出命名
+
+Flake 属性名本身是任意选择器，并不强制等于 hostname。为便于 `rebuild` 自动选择和多机管理，本项目统一采用以下约定：
+
+- `darwinConfigurations.<hostname>`
+- `nixosConfigurations.<hostname>`
+- `homeConfigurations."<user>@<hostname>"`
+
+`hostname` 来自本机私有配置，并由 `scripts/config.sh` 使用 `hostname -s` 自动生成。NixOS 的 `nixos-x86` / `nixos-arm` 目录只表示硬件配置模板，不再作为 Flake 输出名称。
 
 ## 📝 参考
 

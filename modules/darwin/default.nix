@@ -12,11 +12,19 @@
   pkgs,
   inputs,
   self,
+  localConfig,
   primaryUser,
   proxyAddr,
   ...
 }:
 {
+  assertions = [
+    {
+      assertion = primaryUser != "root";
+      message = "nix-darwin 的 primaryUser 不能是 root，请为 macOS 配置普通登录用户。";
+    }
+  ];
+
   imports = [
     ./system.nix # macOS 系统默认值、PAM、launchd 代理
     ./homebrew.nix # Homebrew casks/brews
@@ -48,7 +56,7 @@
       ];
     };
     extraSpecialArgs = {
-      inherit inputs self primaryUser proxyAddr;
+      inherit inputs self localConfig primaryUser proxyAddr;
     };
   };
 }

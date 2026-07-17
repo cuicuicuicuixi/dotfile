@@ -44,7 +44,7 @@ esac
 export STARSHIP_DISTRO="$ICON"
 
 # --- 代理函数 ---
-# 由 nix 在 zsh.nix / bash.nix 中根据 local.nix 的 proxyPort 生成，
+# 由 nix 在 zsh.nix / bash.nix 中根据本机私有配置的 proxyPort 生成，
 # 变更代理端口后需 just switch 生效。
 
 # --- conda（自动检测常见路径） ---

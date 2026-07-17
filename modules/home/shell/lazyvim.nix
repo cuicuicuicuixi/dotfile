@@ -8,6 +8,12 @@
 let
   nvimPkg = inputs.nixvim.legacyPackages.${pkgs.stdenv.hostPlatform.system}.makeNixvimWithModule {
     module = {
+      extraPackages = with pkgs; [
+        tree-sitter
+        gcc
+        nodejs        # 提供 node + npm：pyright 等 JS 系 LSP 运行/安装所需
+        pyright
+      ];
       # 用 extraPlugins 把 lazy-nvim 和 LazyVim 加入 rtp（不走 git clone）
       extraPlugins = with pkgs.vimPlugins; [
         lazy-nvim
