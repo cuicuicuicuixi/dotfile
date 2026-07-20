@@ -29,7 +29,6 @@
     # bat 由 programs.bat 管理（shell.nix）
     # eza 由 programs.eza 管理（shell.nix）
     zk # zsh 配置管理器
-    shellcheck # shell 脚本 lint
 
     # ---- 系统监控 ----
     htop
@@ -40,28 +39,14 @@
     difftastic # 语法感知 diff
     delta # 美化 git diff 输出
 
-    # ---- 终端/开发工具 ----
+    # ---- 终端工具 ----
     # wezterm # 终端模拟器（配置由 dotfiles/wezterm.lua 管理）
     # tmux 由 programs.tmux 管理（shell/tmux.nix）
-    just # 命令运行器 (Make 替代)
-    fnm # Node.js 版本管理
 
     # ---- 文档/排版 ----
     typst # 现代排版系统
     glow # 终端 Markdown 渲染
     poppler # PDF 工具 (pdf2image)
-
-    # ---- 语言运行时 ----
-    rustc
-    cargo
-
-    # ---- 构建工具 ----
-    cmake
-    pkgconf
-
-    # ---- Nix 工具 ----
-    nixfmt # Nix 代码格式化
-    statix         # Nix 代码 lint
 
     # ---- 网络 ----
     curl
@@ -80,10 +65,11 @@
     trash-cli # 命令行回收站
 
     # ---- AI ----
-    claude-code
+    # claude-code
   ]
   ++ lib.optionals pkgs.stdenv.isLinux [
     # 以下为 Linux 专属包（在 macOS/Darwin 上不可用）
+    pkgs.ghostty.terminfo # 识别 SSH 传入的 TERM=xterm-ghostty
     usbutils # lsusb 等 USB 设备工具
     iputils # Linux 版 ping（支持 -M/-6 等网络诊断工具）
     iproute2 # ip/ss 等网络工具

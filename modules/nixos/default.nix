@@ -16,9 +16,12 @@
   proxyAddr,
   ...
 }:
+let
+  loginShell = if (localConfig.shell or "zsh") == "bash" then pkgs.bashInteractive else pkgs.zsh;
+in
 {
   imports = [
-    ./system.nix # NixOS 基础系统设置（locale、zsh、stateVersion）
+    ./system.nix # NixOS 基础系统设置（locale、Shell、stateVersion）
   ];
 
   # ---- Linux 用户创建 ----
@@ -27,13 +30,13 @@
     if primaryUser == "root" then
       {
         home = "/root";
-        shell = pkgs.zsh;
+        shell = loginShell;
       }
     else
       {
         isNormalUser = true;
         home = "/home/${primaryUser}";
-        shell = pkgs.zsh;
+        shell = loginShell;
         extraGroups = [
           "wheel" # sudo 权限
           "networkmanager" # 网络管理

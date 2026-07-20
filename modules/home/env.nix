@@ -18,6 +18,10 @@
       MANPAGER = "nvim +Man!";
       MANWIDTH = "999";
       GOPATH = "${config.home.homeDirectory}/.local/share/go";
+    }
+    // lib.optionalAttrs pkgs.stdenv.isLinux {
+      # 让发行版自带的 clear/tput 等程序找到 Home Manager 安装的 terminfo。
+      TERMINFO_DIRS = "${config.home.profileDirectory}/share/terminfo:/etc/terminfo:/lib/terminfo:/usr/share/terminfo";
     };
     sessionPath =
       [

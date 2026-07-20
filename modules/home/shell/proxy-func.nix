@@ -12,7 +12,7 @@ proxyAddr: let
       }
     '' else ''
       on_proxy() {
-          echo -e "\033[31m未配置代理端口，请运行 just config 设置 proxyPort\033[0m"
+          echo -e "\033[31m未配置代理，请运行 just config 设置 proxyHost 和 proxyPort\033[0m"
           return 1
       }
     '';

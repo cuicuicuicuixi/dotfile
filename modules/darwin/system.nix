@@ -21,7 +21,7 @@
     options = "--delete-older-than 7d";
   };
 
-  # 给 nix-daemon 注入代理环境变量（仅当本机私有配置设置了 proxyPort 时）
+  # 给 nix-daemon 注入代理环境变量（仅当本机私有配置设置了代理端口时）
   launchd.daemons.nix-daemon = lib.mkIf (proxyAddr != null) {
     serviceConfig.EnvironmentVariables = {
       http_proxy = proxyAddr;

@@ -4,8 +4,14 @@ set -Eeuo pipefail
 
 FLAKE_DIR="${FLAKE_DIR:-$HOME/.config/nix}"
 CONNECT_TIMEOUT="${CONNECT_TIMEOUT:-360}"
-USE_MIRROR="${USE_MIRROR:-false}"
+USE_MIRROR="${USE_MIRROR:-true}"
 export NIX_LOCAL_CONFIG="${NIX_LOCAL_CONFIG:-${XDG_CONFIG_HOME:-$HOME/.config}/nix-local/local.nix}"
+
+if [ ! -r "$FLAKE_DIR/flake.lock" ]; then
+  echo "错误：缺少 $FLAKE_DIR/flake.lock，拒绝获取未锁定的远程 Flake 输入。" >&2
+  echo "请确认仓库已完整克隆并包含 flake.lock。" >&2
+  exit 1
+fi
 
 if [ ! -r "$NIX_LOCAL_CONFIG" ]; then
   echo "错误：缺少本机私有配置 $NIX_LOCAL_CONFIG" >&2
@@ -49,6 +55,7 @@ echo "==> 系统: $OS ($ARCH)"
 EXTRA_ARGS=(--option connect-timeout "$CONNECT_TIMEOUT")
 if [ "$USE_MIRROR" = "true" ]; then
   EXTRA_ARGS+=(--option substituters "$MIRROR_SUBSTITUTERS")
+  echo "使用镜像源 ${MIRROR_SUBSTITUTERS}" >&2
 fi
 
 case "$OS" in
@@ -78,12 +85,24 @@ case "$OS" in
         nixos-rebuild switch --flake "$FLAKE_DIR#$HOST_NAME" --impure "${EXTRA_ARGS[@]}"
     else
       HOST="$PRIMARY_USER@$HOST_NAME"
+      HOME_MANAGER_BACKUP_EXTENSION="${HOME_MANAGER_BACKUP_EXTENSION:-backup}"
+      if [[ ! "$HOME_MANAGER_BACKUP_EXTENSION" =~ ^[a-zA-Z0-9._-]+$ ]]; then
+        echo "错误：HOME_MANAGER_BACKUP_EXTENSION 包含无效字符" >&2
+        exit 1
+      fi
+      HOME_MANAGER_ARGS=(-b "$HOME_MANAGER_BACKUP_EXTENSION")
+      echo "==> 冲突文件将备份为 *.$HOME_MANAGER_BACKUP_EXTENSION"
       if command -v home-manager >/dev/null 2>&1; then
         echo "==> Linux: home-manager ($HOST)"
-        home-manager switch --flake "$FLAKE_DIR#$HOST" --impure "${EXTRA_ARGS[@]}"
+        echo "home-manager --extra-experimental-features 'nix-command flakes' switch ${HOME_MANAGER_ARGS[@]} --flake ${FLAKE_DIR}#${HOST} --impure ${EXTRA_ARGS[@]}" >&2
+        home-manager --extra-experimental-features 'nix-command flakes' switch "${HOME_MANAGER_ARGS[@]}" --flake "$FLAKE_DIR#$HOST" --impure "${EXTRA_ARGS[@]}"
       else
-        echo "==> Linux: 首次运行，通过 nix run home-manager ($HOST)"
-        nix --extra-experimental-features 'nix-command flakes' run home-manager/master -- switch --flake "$FLAKE_DIR#$HOST" --impure "${EXTRA_ARGS[@]}" --extra-experimental-features 'nix-command flakes'
+        echo "==> Linux: home-manager CLI 不可用，通过已锁定的输入启动 ($HOST)"
+        echo "nix --extra-experimental-features 'nix-command flakes' run --no-update-lock-file --inputs-from ${FLAKE_DIR} home-manager -- switch ${HOME_MANAGER_ARGS[@]} --flake ${FLAKE_DIR}#${HOST} --impure ${EXTRA_ARGS[@]}  --extra-experimental-features 'nix-command flakes'" >&2
+        nix --extra-experimental-features 'nix-command flakes' "${EXTRA_ARGS[@]}" \
+          run --no-update-lock-file --inputs-from "$FLAKE_DIR" home-manager -- \
+          switch "${HOME_MANAGER_ARGS[@]}" --flake "$FLAKE_DIR#$HOST" --impure "${EXTRA_ARGS[@]}" \
+          --extra-experimental-features 'nix-command flakes'
       fi
     fi
     ;;

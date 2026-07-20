@@ -33,7 +33,7 @@ props:
 # ---- 配置验证 ----
 verify:
     @echo "==> 验证 flake 配置..."
-    cd {{flake_dir}} && NIX_LOCAL_CONFIG=${NIX_LOCAL_CONFIG:-${XDG_CONFIG_HOME:-$HOME/.config}/nix-local/local.nix} nix flake check --impure
+    cd {{flake_dir}} && NIX_LOCAL_CONFIG=${NIX_LOCAL_CONFIG:-${XDG_CONFIG_HOME:-$HOME/.config}/nix-local/local.nix} nix --extra-experimental-features 'nix-command flakes' flake check --impure
     @echo "==> 验证通过"
 
 # ---- 重建 ----
