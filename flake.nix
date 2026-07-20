@@ -5,6 +5,7 @@
 #   modules/darwin/   — macOS 系统级配置（nix-darwin）
 #   modules/nixos/    — NixOS 系统级配置
 #   modules/home/     — 跨平台 home-manager 配置（所有系统共享）
+#   templates/        — Python / ROCm 项目开发环境模板
 #
 # 使用方式：
 #   macOS:           darwin-rebuild switch --flake .#\<hostname\>
@@ -52,10 +53,13 @@
       homeHostName = localConfig.hostName or "host";
       homeSystem = localConfig.homeSystem or "x86_64-linux";
 
-      # 代理地址：从本机配置读取端口，null 表示无代理
+      # 代理地址：从本机配置读取主机和端口，端口为 null 表示无代理
       proxyAddr =
-        let port = localConfig.proxyPort or null;
-        in if port == null || port == 0 then null else "http://127.0.0.1:${toString port}";
+        let
+          host = localConfig.proxyHost or "127.0.0.1";
+          port = localConfig.proxyPort or null;
+        in
+        if port == null || port == 0 then null else "http://${host}:${toString port}";
 
       # 允许安装的 unfree 包白名单（所有系统共享）
       unfreePackages = [
@@ -72,6 +76,21 @@
         };
     in
     {
+      # ==========================================================
+      # 项目模板 — Python / ROCm
+      # ==========================================================
+      templates = rec {
+        default = python;
+        python = {
+          path = ./templates/python;
+          description = "Python 3.12 development environment managed by Nix and uv";
+        };
+        "python-rocm" = {
+          path = ./templates/python-rocm;
+          description = "ROCm Python development environment using host ROCm and uv";
+        };
+      };
+
       # ==========================================================
       # macOS — 系统配置使用实际主机名作为 Flake 选择器
       # ==========================================================
@@ -136,7 +155,10 @@
             system = homeSystem;
             config.allowUnfreePredicate = allowUnfreePredicate;
           };
-          modules = [ ./modules/home ]; # 仅用户级配置，无系统管理
+          modules = [
+            ./modules/home
+            { programs.home-manager.enable = true; }
+          ]; # 仅用户级配置，无系统管理，并安装 home-manager CLI
           extraSpecialArgs = {
             inherit inputs self localConfig primaryUser proxyAddr;
           };

@@ -11,14 +11,18 @@ let
       extraPackages = with pkgs; [
         tree-sitter
         gcc
-        nodejs        # 提供 node + npm：pyright 等 JS 系 LSP 运行/安装所需
+        nodejs
+        # ---- Python LSP / Formatter / Linter / Debugger（Nix 管理，Mason 直接使用）----
         pyright
+        basedpyright
+        ruff
+        python3Packages.debugpy
       ];
       # 用 extraPlugins 把 lazy-nvim 和 LazyVim 加入 rtp（不走 git clone）
       extraPlugins = with pkgs.vimPlugins; [
         lazy-nvim
         LazyVim
-        snacks-nvim        # 从 nix 装，版本匹配 LazyVim，避免时序问题
+        snacks-nvim # 从 nix 装，版本匹配 LazyVim，避免时序问题
       ];
 
       extraConfigLuaPre = ''
@@ -32,7 +36,8 @@ let
         require("lazy").setup({
           spec = {
             { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-            { import = "plugins" },
+            { import = "extras" }, -- LazyVim extras，必须在 plugins 之前
+            { import = "plugins" }, -- 用户自定义插件，可覆写 extras
           },
           defaults = {
             lazy = false,

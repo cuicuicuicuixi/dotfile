@@ -10,11 +10,13 @@
 
 {
   pkgs,
+  localConfig,
   primaryUser,
   ...
 }:
 {
   imports = [
+    ../dev
     ./git.nix
     ./shell.nix
     ./env.nix
@@ -22,6 +24,9 @@
     ./fonts.nix
     ./ssh.nix
   ];
+
+  # macOS 固定使用 Zsh；Linux 使用 config.sh 的检测结果，旧配置默认 Zsh。
+  my.shell = if pkgs.stdenv.isDarwin then "zsh" else localConfig.shell or "zsh";
 
   home = {
     # 跨平台 home 目录：macOS /Users，Linux /home
