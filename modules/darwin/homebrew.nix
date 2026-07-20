@@ -26,7 +26,6 @@
       "macs-fan-control"
       "microsoft-remote-desktop"
       "microsoft-teams"
-      "miniconda"
       "mos"
       "motrix"
       "obs"

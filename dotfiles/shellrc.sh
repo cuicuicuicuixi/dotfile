@@ -47,15 +47,6 @@ export STARSHIP_DISTRO="$ICON"
 # 由 nix 在 zsh.nix / bash.nix 中根据本机私有配置的 proxyHost 和 proxyPort 生成，
 # 变更代理主机或端口后需 just switch 生效。
 
-# --- conda（自动检测常见路径） ---
-for _conda_base in "$HOME/miniconda3" "$HOME/anaconda3" "$HOME/miniforge3" "/opt/homebrew/Caskroom/miniconda/base"; do
-  if [ -f "$_conda_base/etc/profile.d/conda.sh" ]; then
-    . "$_conda_base/etc/profile.d/conda.sh"
-    break
-  fi
-done
-unset _conda_base
-
 # --- fastfetch ---
 if command -v fastfetch >/dev/null 2>&1; then
     fastfetch --config "$HOME/.config/fastfetch/startup.jsonc"
