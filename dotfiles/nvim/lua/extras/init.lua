@@ -20,4 +20,8 @@ return {
 
   -- ui
   { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.ui.treesitter-context" },
+
+  -- util
+  { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.util.project" },
+  { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.util.octo" },
 }
