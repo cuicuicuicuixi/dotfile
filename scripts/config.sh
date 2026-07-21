@@ -71,7 +71,7 @@ if [[ ! "$PRIMARY_USER" =~ ^[a-zA-Z_][a-zA-Z0-9._-]*$ ]]; then
 fi
 
 USER_SHELL=$(detect_login_shell "$PRIMARY_USER")
-echo "  使用登录 Shell: $USER_SHELL（无法识别时默认 zsh）"
+echo "  使用登录 Shell: ${USER_SHELL}（无法识别时默认 zsh）"
 
 if [[ ! "$HOST_NAME" =~ ^[a-zA-Z0-9][a-zA-Z0-9._-]*$ ]]; then
   echo "错误：自动检测到的主机名格式无效: $HOST_NAME" >&2
